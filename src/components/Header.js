@@ -13,16 +13,16 @@ export default class Header extends Component {
                     <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ textAlign: 'center', marginBottom: 15, padding: 5 }}>
                         <Row>
                             <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                                <div id='logo' />
+                                <a href='/'><div id='logo' /></a>
                             </Col>
                             <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-                                <h2 id='companyName'>Info Sync Solutions</h2>
+                                <a href='/'><h2 id='companyName'>Info Sync Solutions</h2></a>
                             </Col>
                         </Row>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6} style={{ textAlign: 'center', marginBottom: 25, padding: 5, lineHeight: 2.5 }}>
-                        <a href='#services' className='navOption'>Services</a>
-                        <a href='#examples' className='navOption'>Examples</a>
+                        <a href='/#services' className='navOption'>Services</a>
+                        <a href='/#examples' className='navOption'>Examples</a>
                         <a href='#/' className='navOption'>Pricing</a>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6} style={{ textAlign: 'center', marginBottom: 25, padding: 5, lineHeight: 2.5 }}>
@@ -31,8 +31,8 @@ export default class Header extends Component {
                                 message: 'Hey',
                                 description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
                                 placement: "bottomRight"
-                              });
-                            
+                            });
+
                         }}>Contact</span>
                     </Col>
                 </Row>
