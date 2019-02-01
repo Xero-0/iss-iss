@@ -35,16 +35,18 @@ export default class services extends Component {
 
         return (
             <div>
-                <div className={this.state.service.url + ' container'} style={{ width: '100%', height: 250, marginBottom: 16 }} />
-                <h1 style={{ textAlign: 'center' }}>{this.state.service.title}</h1>
-                <div gutter={16} style={{ marginBottom: 100 }}>
-                    <Row>
-                        <div className='container' style={{ height: 250, marginBottom: 16 }} />
-                    </Row>
-                    <Row>
-                        <div className='container' style={{ height: 400, marginBottom: 16 }} />
-                    </Row>
+                <Row gutter={16}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <div className={this.state.service.url} style={{ width: '100%', height: 250, marginBottom: 16, padding: 50 }} /> */}
+                    </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <h1 style={{textAlign: 'center'}}>{this.state.service.title}</h1>
 
+                    </Col>
+                </Row>
+                <div gutter={16} style={{ marginBottom: 100 }}>
+                    <div className='container' style={{ height: 250, marginBottom: 16 }} />
+                    <div className='container' style={{ height: 400, marginBottom: 16 }} />
                 </div>
             </div>
         )

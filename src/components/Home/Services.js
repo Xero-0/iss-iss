@@ -22,7 +22,7 @@ export default class Services extends Component {
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <div className='container servicesBox'>
-                            <div id='servicesDesktop' />
+                            <div id='servicesDesktop'/>
                             <h2>Real-time reports.</h2>
                             <h3 style={{ color: 'grey', fontStyle: 'italic' }}>Fully Customised</h3>
                             <span>

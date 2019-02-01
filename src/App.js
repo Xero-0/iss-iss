@@ -17,7 +17,11 @@ export default class App extends Component {
                 </div>
             )
         } else if(window.location.pathname.includes('/services/')){
-            return <div id='headerSvg' style={{ height: 320}} />
+            return (
+                <div>
+                    <div id='headerSvg' style={{ height: 320}} />
+                    <div id='servicesSvg'/>
+                </div>)
         } else if(window.location.pathname.includes('/examples/')){
             return <div id='headerSvg' style={{ height: 320}} />
         } else {

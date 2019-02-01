@@ -18,6 +18,18 @@
     z-index: -1;
 }
 
+/* #servicesSvg {
+    -webkit-clip-path: polygon(32% 0, 100% 0, 100% 100%, 14% 100%);
+    clip-path: polygon(32% 0, 100% 0, 100% 100%, 14% 100%);
+    position: absolute;
+    background-color: #2980b9;
+    height: 300px;
+    width: 70%;
+    top: 85px;
+    right: 0;
+    z-index: -1;
+} */
+
 #logo {
     background: url('../constants/iss_logo.png') no-repeat center;
     background-size: contain;
@@ -97,16 +109,27 @@
 
 #servicesIpad {
     background: url('../constants/home/undraw_confirmed.svg') no-repeat center;
-    height: 200px;
     background-size: contain;
+    height: 200px;
     margin-bottom: 35px
+}
+
+.mobile-data-collection {
+    /* background: url('../constants/home/undraw_confirmed.svg') no-repeat center;
+    background-size: contain; */
 }
 
 #servicesDesktop {
     background: url('../constants/home/realtime_sync.svg') no-repeat center;
-    height: 200px;
     background-size: contain;
+    height: 200px;
     margin-bottom: 35px
+}
+
+.real-time-reports {
+    /* background: url('../constants/home/realtime_sync.svg') no-repeat center;
+    background-size: contain; */
+
 }
 
 #infoImage {
@@ -147,6 +170,7 @@
     margin: 0 20px 20px 0;
     height: 100px;
 }
+
 .inspections {
     background: url('../constants/examples/ConstructioniPad.jpg') no-repeat center;
     background-size: cover;
@@ -157,6 +181,7 @@
     margin: 0 20px 20px 0;
     height: 100px;
 }
+
 .quality-checks {
     background: url('../constants/examples/og-share.jpg') no-repeat center;
     background-size: cover;
@@ -167,7 +192,8 @@
     margin: 0 20px 20px 0;
     height: 100px;
 }
-.inductions{
+
+.inductions {
     background: url('../constants/examples/induction.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
@@ -177,7 +203,8 @@
     margin: 0 20px 20px 0;
     height: 100px;
 }
-.procedures{
+
+.procedures {
     background: url('../constants/examples/construction-workers-tablet-featured-765x420.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
