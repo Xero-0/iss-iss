@@ -5,37 +5,54 @@ import { content } from './content'
 
 export default class Examples extends Component {
     state = {
-        example: null
+        example: {
+            url: '',
+            title: '',
+            images: {
+                header: '',
+                dataCollection: '',
+                reports: '',
+            },
+            content: {
+                dataCollection: '',
+                reports: ''
+            }
+        }
     }
     componentDidMount() {
-        this.setState({ example: window.location.pathname.replace('/examples/', '') }, () => this.build());
+        this.build()
     }
     build() {
         content.forEach(example => {
-            if (example.url === this.state.example) {
-                console.log(example);
+            if (example.url === window.location.pathname.replace('/examples/', '')) {
+                this.setState({
+                    example
+                })
             }
         })
     }
     render() {
+        console.log(this.state);
+
         return (
             <div>
-                <div style={{ width: '100%', border: '1px solid', height: 200, margin: '0 auto 30px' }} />
-                <Row gutter={30} style={{ marginBottom: 100 }}>
+                <div className={this.state.example.url} style={{ width: '100%', height: 250, marginBottom: 16 }} />
+                <h1 style={{textAlign: 'center'}}>{this.state.example.title}</h1>
+                <Row gutter={16} style={{ marginBottom: 100 }}>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Row>
-                            <div style={{ border: '1px solid', height: 250, marginBottom: 30 }} />
+                            <div className='container' style={{ height: 250, marginBottom: 16 }} />
                         </Row>
                         <Row>
-                            <div style={{ border: '1px solid', height: 400, marginBottom: 30 }} />
+                            <div className='container' style={{ height: 400, marginBottom: 16 }} />
                         </Row>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Row>
-                            <div style={{ border: '1px solid', height: 250, marginBottom: 30 }} />
+                            <div className='container' style={{ height: 250, marginBottom: 16 }} />
                         </Row>
                         <Row>
-                            <div style={{ border: '1px solid', height: 400, marginBottom: 30 }} />
+                            <div className='container' style={{ height: 400, marginBottom: 16 }} />
                         </Row>
                     </Col>
                 </Row>

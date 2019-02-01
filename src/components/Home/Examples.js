@@ -12,7 +12,7 @@ export default class Examples extends Component {
                         <div className='container examplesBox'>
                             <Row>
                                 <Col span={12}>
-                                    <div id='examples1'/>
+                                    <div id='examples1' className='ohs'/>
                                 </Col>
                                 <Col span={12}>
                                     <h2 style={{marginTop: 33}}>Health and Safety</h2>
@@ -31,7 +31,7 @@ export default class Examples extends Component {
                         <div className='container examplesBox'>
                             <Row>
                                 <Col span={12}>
-                                    <div id='examples2'/>
+                                    <div id='examples2' className='maintenance'/>
                                 </Col>
                                 <Col span={12}>
                                     <h2 style={{marginTop: 33}}>Maintenance</h2>
@@ -52,7 +52,7 @@ export default class Examples extends Component {
                         <div className='container examplesBox'>
                             <Row>
                                 <Col span={12}>
-                                    <div id='examples3'/>
+                                    <div id='examples3' className='inspections'/>
                                 </Col>
                                 <Col span={12}>
                                     <h2 style={{marginTop: 33}}>Inspections</h2>
@@ -71,7 +71,7 @@ export default class Examples extends Component {
                         <div className='container examplesBox'>
                             <Row>
                                 <Col span={12}>
-                                    <div id='examples4'/>
+                                    <div id='examples4' className='quality-checks'/>
                                 </Col>
                                 <Col span={12}>
                                     <h2 style={{marginTop: 33}}>Quality Checks</h2>
@@ -91,7 +91,7 @@ export default class Examples extends Component {
                         <div className='container examplesBox'>
                             <Row>
                                 <Col span={12}>
-                                    <div id='examples5'/>
+                                    <div id='examples5' className='inductions'/>
                                 </Col>
                                 <Col span={12}>
                                     <h2 style={{marginTop: 33}}>Inductions</h2>
@@ -110,7 +110,7 @@ export default class Examples extends Component {
                         <div className='container examplesBox'>
                             <Row>
                                 <Col span={12}>
-                                    <div id='examples6'/>
+                                    <div id='examples6' className='procedures' />
                                 </Col>
                                 <Col span={12}>
                                     <h2 style={{marginTop: 33}}>Procedures</h2>

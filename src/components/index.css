@@ -74,7 +74,7 @@
 }
 
 .worker-ipad {
-    background: url('../constants/worker_ipad.png') no-repeat center;
+    background: url('../constants/home/worker_ipad.png') no-repeat center;
     background-size: cover;
     border-radius: 4px
 }
@@ -96,21 +96,21 @@
 }
 
 #servicesIpad {
-    background: url('../constants/undraw_confirmed.svg') no-repeat center;
+    background: url('../constants/home/undraw_confirmed.svg') no-repeat center;
     height: 200px;
     background-size: contain;
     margin-bottom: 35px
 }
 
 #servicesDesktop {
-    background: url('../constants/realtime_sync.svg') no-repeat center;
+    background: url('../constants/home/realtime_sync.svg') no-repeat center;
     height: 200px;
     background-size: contain;
     margin-bottom: 35px
 }
 
 #infoImage {
-    background: url('../constants/construction.svg') no-repeat center;
+    background: url('../constants/home/construction.svg') no-repeat center;
     margin: 20px;
     height: 300px;
     background-size: contain;
@@ -122,61 +122,69 @@
 }
 
 #examples1 {
-    background: url('../constants/examples/ohs.jpg') no-repeat center;
     margin: 0 20px 20px 0;
     height: 100px;
-    /* border: 1px solid #C5C5C5; */
+}
+
+.ohs {
+    background: url('../constants/examples/ohs.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
 }
 
 #examples2 {
-    background: url('../constants/examples/car-repair.jpg') no-repeat center;
     margin: 0 20px 20px 0;
     height: 100px;
-    /* border: 1px solid #C5C5C5; */
+}
+
+.maintenance {
+    background: url('../constants/examples/car-repair.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
 }
 
 #examples3 {
-    background: url('../constants/examples/ConstructioniPad.jpg') no-repeat center;
     margin: 0 20px 20px 0;
     height: 100px;
-    /* border: 1px solid #C5C5C5; */
+}
+.inspections {
+    background: url('../constants/examples/ConstructioniPad.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
 }
 
 #examples4 {
-    background: url('../constants/examples/og-share.jpg') no-repeat center;
     margin: 0 20px 20px 0;
     height: 100px;
-    /* border: 1px solid #C5C5C5; */
+}
+.quality-checks {
+    background: url('../constants/examples/og-share.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
 }
 
 #examples5 {
-    background: url('../constants/examples/induction.jpg') no-repeat center;
     margin: 0 20px 20px 0;
     height: 100px;
-    /* border: 1px solid #C5C5C5; */
+}
+.inductions{
+    background: url('../constants/examples/induction.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
 }
 
 #examples6 {
-    background: url('../constants/examples/construction-workers-tablet-featured-765x420.jpg') no-repeat center;
     margin: 0 20px 20px 0;
     height: 100px;
-    /* border: 1px solid #C5C5C5; */
+}
+.procedures{
+    background: url('../constants/examples/construction-workers-tablet-featured-765x420.jpg') no-repeat center;
     background-size: cover;
     border-radius: 4px
 }
 
 #contactImage {
-    background: url('../constants/undraw_calling.svg') no-repeat center;
+    background: url('../constants/home/undraw_calling.svg') no-repeat center;
     margin: 30px;
     height: 250px;
     background-size: contain;

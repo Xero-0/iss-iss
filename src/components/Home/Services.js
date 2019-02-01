@@ -17,7 +17,7 @@ export default class Services extends Component {
                                 Keep track of your jobs, inductions, maintenance, timesheets, audits, and any other activities. Forms are built to be simple and unobtrusive.
                             </span>
                             <br />
-                            <span style={{ position: 'absolute', right: 55 }} className='learnMoreText'>Learn More</span>
+                            <a href='/services/mobile-data-collection' style={{ position: 'absolute', right: 55 }} className='learnMoreText'>Learn More</a>
                         </div>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -30,7 +30,7 @@ export default class Services extends Component {
                                 These reports are accessible anywhere on any device, using the latest technologies in web development.
                             </span>
                             <br />
-                            <span style={{ position: 'absolute', right: 55 }} className='learnMoreText'>Learn More</span>
+                            <a href='/services/real-time-reports'style={{ position: 'absolute', right: 55 }} className='learnMoreText'>Learn More</a>
                         </div>
                     </Col>
                 </Row>

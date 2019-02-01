@@ -3,11 +3,12 @@ import { Route, BrowserRouter as Router } from 'react-router-dom'
 import { BackTop } from 'antd'
 import Home from './components/Home'
 import Examples from './components/Examples'
+import Services from './components/Services'
 import Header from './components/Header'
 import Footer from './components/Footer'
 
 export default class App extends Component {
-    backgroundSvgs() {
+    backgroundSvgs() {        
         if (window.location.pathname === '/') {
             return (
                 <div>
@@ -15,6 +16,10 @@ export default class App extends Component {
                     <div id='middleSvg' />
                 </div>
             )
+        } else if(window.location.pathname.includes('/services/')){
+            return <div id='headerSvg' style={{ height: 320}} />
+        } else if(window.location.pathname.includes('/examples/')){
+            return <div id='headerSvg' style={{ height: 320}} />
         } else {
             return <div id='headerSvg' style={{ height: 320 }} />
         }
@@ -31,8 +36,7 @@ export default class App extends Component {
                     <Router>
                         <div>
                             <Route exact path='/' component={Home} />
-                            {/* {/* <Route path='/mobile-data-collection' component={Mobile} /> */}
-                            {/* <Route path='/real-time-reports' component={Reports} /> */}
+                            <Route path='/services' component={Services} />
                             <Route path='/examples' component={Examples} />
                         </div>
                     </Router>
