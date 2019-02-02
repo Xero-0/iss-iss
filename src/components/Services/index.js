@@ -8,14 +8,9 @@ export default class services extends Component {
         service: {
             url: '',
             title: '',
-            images: {
-                dataCollection: '',
-                reports: '',
-            },
-            content: {
-                dataCollection: '',
-                reports: ''
-            }
+            subTitle: '',
+            image: '',
+            content: ''
         }
     }
     componentDidMount() {
@@ -36,17 +31,20 @@ export default class services extends Component {
         return (
             <div>
                 <Row gutter={16}>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        {/* <div className={this.state.service.url} style={{ width: '100%', height: 250, marginBottom: 16, padding: 50 }} /> */}
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                        <div style={{ background: '#fff', marginBottom: 50, padding: 20 }} className='container'>
+                            <div className={this.state.service.url} style={{ height: '40vh', }} />
+                        </div>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <h1 style={{textAlign: 'center'}}>{this.state.service.title}</h1>
-
+                    <Col xs={24} sm={24} md={14} lg={14} xl={14}>
+                        <h1 className='servicesTitle'>{this.state.service.title}</h1>
+                        <h3 style={{ color: '#4c4c4c' }}>{this.state.service.subTitle}</h3>
                     </Col>
                 </Row>
                 <div gutter={16} style={{ marginBottom: 100 }}>
-                    <div className='container' style={{ height: 250, marginBottom: 16 }} />
-                    <div className='container' style={{ height: 400, marginBottom: 16 }} />
+                    <div style={{ height: 400, marginBottom: 16 }}>
+                    {this.state.service.content}
+                    </div>
                 </div>
             </div>
         )

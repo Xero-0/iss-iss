@@ -106,6 +106,9 @@
     padding: 50px;
     background-color: #fff
 }
+.servicesTitle{
+    margin-top: 17vh;
+}
 
 #servicesIpad {
     background: url('../constants/home/undraw_confirmed.svg') no-repeat center;
@@ -115,8 +118,8 @@
 }
 
 .mobile-data-collection {
-    /* background: url('../constants/home/undraw_confirmed.svg') no-repeat center;
-    background-size: contain; */
+    background: url('../constants/services/ipad_fulcrum.png') no-repeat center;
+    background-size: contain;
 }
 
 #servicesDesktop {
@@ -216,9 +219,17 @@
     height: 250px;
     background-size: contain;
 }
-
+#pricingImage {
+    background: url('../constants/pricing/selection.svg') no-repeat center;
+    margin: 40px;
+    height: 250px;
+    background-size: contain;
+}
 .footer {
     color: #fff
+}
+.ant-notification-notice{
+    border: 2px solid #2980b9
 }
 
 .ant-back-top {
@@ -273,5 +284,8 @@
 
     #backTop {
         display: block
+    }
+    .servicesTitle{
+        margin-top: 5px;
     }
 }

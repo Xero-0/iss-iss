@@ -15,8 +15,8 @@ export default class Footer extends Component {
                         </Col>
                         <Col className='footer' span={12}>
                             <h3 className='footer'>Info Sync Solutions</h3>
-                            ABN <br />
-                            Location
+                            ABN: 31 197 486 237 <br />
+                            Location: Gippsland & Melbourne, Australia
                         </Col>
                     </Row>
                 </div>
