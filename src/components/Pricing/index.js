@@ -6,12 +6,16 @@ import * as EmailValidator from 'email-validator';
 const client = new Client(process.env.REACT_APP_SECRET_KEY)
 
 const questions = [
-    { id: 1, question: 'Are you interested in mobile data collection?', type: 'option' },
-    { id: 2, question: 'How many existing forms would you like converted?', type: 'number' },
-    { id: 3, question: 'Do you want real-time custom reports?', type: 'option' },
-    { id: 4, question: 'How many real-time reports do you require?', type: 'number' },
-    { id: 5, question: 'Would you like training included?', type: 'option' },
-    { id: 6, question: 'Additional Information and/or questions', type: 'input' },
+    { id: 1, question: 'What industry is your business in?', type: 'input' },
+    { id: 2, question: 'How many employees does you\'re business have?', type: 'input' },
+    { id: 3, question: 'Are you interested in mobile data collection?', type: 'option' },
+    { id: 4, question: 'How many existing forms would you like converted?', type: 'number' },
+    { id: 5, question: 'Do you want real-time custom reports?', type: 'option' },
+    { id: 6, question: 'How many real-time reports do you require?', type: 'number' },
+    { id: 7, question: 'Would you like training included?', type: 'option' },
+    { id: 8, question: 'What\'s your business name?', type: 'input' },
+    { id: 9, question: 'Additional Information and/or questions', type: 'input' },
+    { id: 10, question: 'You\'re full name: ', type: 'input' },
 
 ]
 
@@ -23,17 +27,21 @@ export default class Pricing extends Component {
         4: null,
         5: null,
         6: null,
+        7: null,
+        8: null,
+        9: null,
+        10: null,
         email: null,
         emailSent: false
     }
     componentDidMount = () => {
-        client.records.all({ form_id: '987cbc89-7b02-486a-8c82-ea7411d5eca2' })
-            .then((page) => {
-                console.log(page.objects);
-            })
-            .catch((error) => {
-                console.log('Error getting your forms.', error.message);
-            });
+        // client.records.all({ form_id: '987cbc89-7b02-486a-8c82-ea7411d5eca2' })
+        //     .then((page) => {
+        //         console.log(page.objects);
+        //     })
+        //     .catch((error) => {
+        //         console.log('Error getting your forms.', error.message);
+        //     });
     }
     questionsBuild() {
         let questionList = []
@@ -98,7 +106,7 @@ export default class Pricing extends Component {
                                 <h3>{question.question}</h3>
                             </Col>
                             <Col xs={24} sm={24} md={16} lg={16} xl={16} style={{ marginBottom: 16 }}>
-                                <Input.TextArea value={this.state[6]} onChange={(e) => this.setState({ [question.id]: e.target.value })} style={{ width: '100%' }} placeholder='Is it possible to have automatically genorated emails?' autosize></Input.TextArea>
+                                <Input.TextArea value={this.state[question.id]} onChange={(e) => this.setState({ [question.id]: e.target.value })} style={{ width: '100%' }} autosize></Input.TextArea>
                             </Col>
                         </Row>
                         <Divider style={{ marginTop: 5 }} />
@@ -141,12 +149,16 @@ export default class Pricing extends Component {
                 let obj = {
                     form_id: '987cbc89-7b02-486a-8c82-ea7411d5eca2',
                     form_values: {
-                        'f7ab': this.state[1],
-                        'a414': this.state[2],
-                        '1e8c': this.state[3],
-                        'd94f': this.state[4],
-                        '0a75': this.state[5],
-                        '72c1': this.state[6],
+                        'bae2': this.state[1], //industry
+                        'bf92': this.state[2], //employees
+                        'f7ab': this.state[3], //mobile data collection
+                        'a414': this.state[4], //number of forms
+                        '1e8c': this.state[5], //realtime reports yes
+                        'd94f': this.state[6], //no of reports
+                        '0a75': this.state[7], //training
+                        'f73d': this.state[8], //business name
+                        '72c1': this.state[9], //additional info
+                        '1c0f': this.state[10], //fullname
                         'cd0c': this.state.email
                     }
                 }

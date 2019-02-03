@@ -27,12 +27,9 @@ export default class App extends Component {
         } else if (window.location.pathname.includes('/examples/')) {
             return <div id='headerSvg' style={{ height: 320 }} />
         } else if (window.location.pathname.includes('/pricing')) {
-            return <div id='headerSvg' style={{
-                height: 140,
-                WebkitClipPath: 'polygon(0 0, 100 % 0, 85% 100 %, 0 % 100 %)',
-                clipPath: 'polygon(0 0, 100 % 0, 85 % 100 %, 0 % 100 %)'
-            }
-            } />
+            return <div id='headerSvg' style={{ height: 140 }} />
+        } else if (window.location.pathname.includes('/contact')) {
+            return <div id='headerSvg' style={{ height: 140 }} />
         } else {
             return <div id='headerSvg' style={{ height: 320 }} />
         }

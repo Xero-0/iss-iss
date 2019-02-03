@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, notification } from 'antd'
+import { Row, Col } from 'antd'
 import './index.css'
 
 export default class Header extends Component {
@@ -26,14 +26,7 @@ export default class Header extends Component {
                         <a href='/pricing' className='navOption'>Pricing</a>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6} style={{ textAlign: 'center', marginBottom: 25, padding: 5, lineHeight: 2.5 }}>
-                        <a href='/contact' className='contactButton' onClick={() => {
-                            notification.success({
-                                message: 'Hey',
-                                description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-                                placement: "bottomRight"
-                            });
-
-                        }}>Contact</a>
+                        <a href='/contact' className='contactButton'>Contact</a>
                     </Col>
                 </Row>
             </div>

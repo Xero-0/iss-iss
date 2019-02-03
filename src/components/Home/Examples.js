@@ -24,7 +24,7 @@ export default class Examples extends Component {
                                 Checks are uploaded in real time to mitigate risk through access
                                 to information.
                             </span><br/><br />
-                            <a href='/examples/ohs' className='learnMoreText'>Learn More</a>
+                            {/* <a href='/examples/ohs' className='learnMoreText'>Learn More</a> */}
                         </div>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ marginBottom: 16 }}>
@@ -43,7 +43,7 @@ export default class Examples extends Component {
                             Priority allocation can be included to identify the necessary requirement
                             for maintenance.
                             </span><br/><br />
-                            <a href='/examples/maintenance' className='learnMoreText'>Learn More</a>
+                            {/* <a href='/examples/maintenance' className='learnMoreText'>Learn More</a> */}
                         </div>
                     </Col>
                 </Row>
@@ -64,7 +64,7 @@ export default class Examples extends Component {
                             with smart apps will enable personal to be notified of any important
                             changes.
                             </span><br/><br />
-                            <a href='/examples/inspections' className='learnMoreText'>Learn More</a>
+                            {/* <a href='/examples/inspections' className='learnMoreText'>Learn More</a> */}
                         </div>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ marginBottom: 16 }}>
@@ -82,7 +82,7 @@ export default class Examples extends Component {
                             like ISO 9001 will identify the importance of having systems that are not 
                             only effective but fast to complete and informative. 
                             </span><br/><br />
-                            <a href='/examples/quality-checks' className='learnMoreText'>Learn More</a>
+                            {/* <a href='/examples/quality-checks' className='learnMoreText'>Learn More</a> */}
                         </div>
                     </Col>
                 </Row>
@@ -103,7 +103,7 @@ export default class Examples extends Component {
                             effectively. Reports can also be generated and emailed to employers 
                             as proof if necessary.
                             </span><br/><br />
-                            <a href='/examples/inductions' className='learnMoreText'>Learn More</a>
+                            {/* <a href='/examples/inductions' className='learnMoreText'>Learn More</a> */}
                         </div>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ marginBottom: 16 }}>
@@ -122,7 +122,7 @@ export default class Examples extends Component {
                             possible processes. Metadata captures GPS and time data that represent
                             to employers the data that is relevant. 
                             </span><br/><br />
-                            <a href='/examples/procedures' className='learnMoreText'>Learn More</a>
+                            {/* <a href='/examples/procedures' className='learnMoreText'>Learn More</a> */}
                         </div>
                     </Col>
                 </Row>
