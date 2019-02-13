@@ -9,11 +9,15 @@ const client = new Client(process.env.REACT_APP_SECRET_KEY)
 export default class Contact extends Component {
     state = {
         email: null,
-        emailSent: null
+        emailSent: null,
+        buttonLoading: false,
     }
     getQuote() {
         if (this.state.email) {
             if (EmailValidator.validate(this.state.email)) {
+                this.setState({
+                    buttonLoading: true
+                })
                 let obj = {
                     form_id: '987cbc89-7b02-486a-8c82-ea7411d5eca2',
                     form_values: {
@@ -23,7 +27,10 @@ export default class Contact extends Component {
                 client.records.create(obj)
                     .then(resp => {
                         console.log(resp);
-                        this.setState({ emailSent: true })
+                        this.setState({ 
+                            emailSent: true,
+                            buttonLoading:false
+                         })
                     })
                     .catch(err => {
                         notification.error({
@@ -44,6 +51,7 @@ export default class Contact extends Component {
             notification.warn({
                 message: 'Missing Email.',
                 description: 'Please input your email address.',
+                placement: 'bottomRight'
             })
         }
     }
@@ -61,7 +69,7 @@ export default class Contact extends Component {
                 <div style={{ textAlign: 'center' }}>
                     <h2>Enter your email address</h2>
                     <Input value={this.state.email} onChange={val => this.setState({ email: val.target.value })} style={{ width: '100%', maxWidth: 500, marginBottom: 20 }} placeholder='john_smith@gmail.com'></Input>
-                    <Button onClick={() => this.getQuote()} style={{ width: '100%', maxWidth: 500, background: '#1abc9c', borderColor: '#1abc9c', marginBottom: 20 }} type='primary'>Enquire</Button>
+                    <Button onClick={() => this.getQuote()} loading={this.state.buttonLoading} style={{ width: '100%', maxWidth: 500, background: '#1abc9c', borderColor: '#1abc9c', marginBottom: 20 }} type='primary'>Enquire</Button>
                 </div>
             )
         }

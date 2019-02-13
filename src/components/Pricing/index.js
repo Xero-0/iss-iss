@@ -32,7 +32,8 @@ export default class Pricing extends Component {
         9: null,
         10: null,
         email: null,
-        emailSent: false
+        emailSent: false,
+        buttonLoading: false
     }
     componentDidMount = () => {
         // client.records.all({ form_id: '987cbc89-7b02-486a-8c82-ea7411d5eca2' })
@@ -136,7 +137,7 @@ export default class Pricing extends Component {
                 <div style={{ textAlign: 'center', margin: 40 }}>
                     <h2>Enter your email address</h2>
                     <Input value={this.state.email} onChange={val => this.setState({ email: val.target.value })} style={{ width: '100%', maxWidth: 500, marginBottom: 20 }} placeholder='john_smith@gmail.com'></Input>
-                    <Button onClick={() => this.getQuote()} style={{ width: '100%', maxWidth: 500, background: '#1abc9c', borderColor: '#1abc9c', marginBottom: 20 }} type='primary'>Get Quote</Button>
+                    <Button onClick={() => this.getQuote()} loading={this.state.buttonLoading} style={{ width: '100%', maxWidth: 500, background: '#1abc9c', borderColor: '#1abc9c', marginBottom: 20 }} type='primary'>Get Quote</Button>
                     <h4 style={{ color: '#4c4c4c' }}>Unsure about the specifics? Thats fine, enter your email and what you can and somebody will be in contact very shortly.</h4>
                 </div>
             )
@@ -146,6 +147,9 @@ export default class Pricing extends Component {
     getQuote() {
         if (this.state.email) {
             if (EmailValidator.validate(this.state.email)) {
+                this.setState({
+                    buttonLoading: true
+                })
                 let obj = {
                     form_id: '987cbc89-7b02-486a-8c82-ea7411d5eca2',
                     form_values: {
@@ -166,13 +170,17 @@ export default class Pricing extends Component {
                     .then(resp => {
 
                         console.log(resp);
-                        this.setState({ emailSent: true })
+                        this.setState({
+                            emailSent: true,
+                            buttonLoading: false
+                        })
 
                     })
                     .catch(err => {
                         notification.error({
                             message: 'Error',
                             description: 'An error has occured. Please check your internet connection.',
+                            placement: 'bottomRight'
                         })
                         console.log(err)
                     })
@@ -188,6 +196,7 @@ export default class Pricing extends Component {
             notification.warn({
                 message: 'Missing Email.',
                 description: 'Please input your email address.',
+                placement: 'bottomRight'
             })
         }
     }
