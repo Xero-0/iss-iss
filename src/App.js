@@ -18,10 +18,10 @@ export default class App extends Component {
                     <div id='middleSvg' />
                 </div>
             )
-        } else if (window.location.pathname.includes('/services/')) {
+        } else if (window.location.pathname.includes('/services')) {
             return (
                 <div>
-                    <div id='headerSvg' style={{ height: 320 }} />
+                    <div id='headerSvg' style={{ height: 140 }} />
                     <div id='servicesSvg' />
                 </div>)
         } else if (window.location.pathname.includes('/examples/')) {

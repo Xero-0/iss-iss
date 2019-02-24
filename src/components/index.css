@@ -134,6 +134,9 @@
     background-size: contain; */
 
 }
+.ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+    color: #1abc9c !important
+}
 
 #infoImage {
     background: url('../constants/home/construction.svg') no-repeat center;
@@ -223,6 +226,26 @@
     background: url('../constants/pricing/selection.svg') no-repeat center;
     margin: 40px;
     height: 250px;
+    background-size: contain;
+}
+.ipad-example{
+    background: url('../constants/services/ipad_fulcrum.png') no-repeat center;
+    height: 400px;
+    background-size: contain;
+}
+.portal-example{
+    background: url('../constants/services/portal\ onscreen\ demo.png') no-repeat center;
+    height: 400px;
+    background-size: contain;
+}
+.menu-example{
+    background: url('../constants/services/menu.png') no-repeat center;
+    height: 400px;
+    background-size: contain;
+}
+.email-example{
+    background: url('../constants/services/auto_email.png') no-repeat center;
+    height: 400px;
     background-size: contain;
 }
 .footer {

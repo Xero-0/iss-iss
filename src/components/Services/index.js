@@ -1,50 +1,61 @@
 import React, { Component } from 'react'
-import { Row, Col } from 'antd'
+import { Steps, Button } from 'antd'
+import {steps} from './content'
 
-import { content } from './content'
+const Step = Steps.Step;
 
 export default class services extends Component {
-    state = {
-        service: {
-            url: '',
-            title: '',
-            subTitle: '',
-            image: '',
-            content: ''
-        }
+    constructor(props) {
+        super(props);
+        this.state = {
+            current: 0,
+        };
     }
-    componentDidMount() {
-        this.build()
+    next() {
+        const current = this.state.current + 1;
+        this.setState({ current });
     }
-    build() {
-        content.forEach(service => {
-            if (service.url === window.location.pathname.replace('/services/', '')) {
-                this.setState({
-                    service
-                })
-            }
-        })
+    prev() {
+        const current = this.state.current - 1;
+        this.setState({ current });
+    }
+    previousDisabled(){
+        if (this.state.current === 0) {
+            return true
+        } 
+        return false
     }
     render() {
-        console.log(this.state);
-
+        const { current } = this.state;
         return (
-            <div>
-                <Row gutter={16}>
-                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                        <div style={{ background: '#fff', marginBottom: 50, padding: 20 }} className='container'>
-                            <div className={this.state.service.url} style={{ height: '40vh', }} />
-                        </div>
-                    </Col>
-                    <Col xs={24} sm={24} md={14} lg={14} xl={14}>
-                        <h1 className='servicesTitle'>{this.state.service.title}</h1>
-                        <h3 style={{ color: '#4c4c4c' }}>{this.state.service.subTitle}</h3>
-                    </Col>
-                </Row>
-                <div gutter={16} style={{ marginBottom: 100 }}>
-                    <div style={{ height: 400, marginBottom: 16 }}>
-                    {this.state.service.content}
-                    </div>
+            <div style={{ minHeight: '80vh' }}>
+                <Steps current={current} style={{
+                    background: 'white',
+                    padding: '20px',
+                    marginBottom: 20,
+                    borderTop: '2px solid #527cb7',
+                    borderLeft: '2px solid #527cb7',
+                }}>
+                    {steps.map(item => <Step key={item.title} title={item.title} icon={item.icon} />)}
+                </Steps>
+                
+                <div className="steps-content" style={{
+                    background: 'white',
+                    padding: '20px',
+                    minHeight: 350,
+                    marginBottom: 20,
+                }}>{steps[current].content}</div>
+                <div className="steps-action" style={{textAlign: 'center'}}>
+                    {current < steps.length - 1
+                        && <Button type='primary' style={{ marginRight: 8, minWidth: 200, marginBottom: 10, backgroundColor: '#1abc9c', borderColor: '#1abc9c'}} onClick={() => this.next()}>Next</Button>}
+                    {current === steps.length - 1
+                        && <Button type="primary" style={{ marginRight: 8, minWidth: 200, marginBottom: 10, backgroundColor: '#1abc9c', borderColor: '#1abc9c'}} onClick={() => console.log('Pricing')}>Pricing</Button>}
+                    {current >= 0
+                        && (
+                            <Button style={{ minWidth: 200}} disabled={this.previousDisabled()} onClick={() => this.prev()}>
+                                Previous
+                            </Button>
+                        )}
                 </div>
             </div>
         )
