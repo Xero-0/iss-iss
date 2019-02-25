@@ -1,0 +1,41 @@
+[debug] [2019-02-25T02:26:30.826Z] ----------------------------------------------------------------------
+[debug] [2019-02-25T02:26:30.828Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2019-02-25T02:26:30.828Z] CLI Version:   6.3.1
+[debug] [2019-02-25T02:26:30.828Z] Platform:      darwin
+[debug] [2019-02-25T02:26:30.828Z] Node Version:  v8.11.3
+[debug] [2019-02-25T02:26:30.828Z] Time:          Mon Feb 25 2019 13:26:30 GMT+1100 (AEDT)
+[debug] [2019-02-25T02:26:30.829Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-02-25T02:26:30.841Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-02-25T02:26:30.841Z] > authorizing via signed-in user
+[debug] [2019-02-25T02:26:30.841Z] [iam] checking project infosync-solutions for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-02-25T02:26:30.843Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-02-25T02:26:30.843Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-02-25T02:26:32.051Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-25T02:26:32.110Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/infosync-solutions:testIamPermissions  
+
+[debug] [2019-02-25T02:26:33.145Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-25T02:26:33.146Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/infosync-solutions  
+ 
+[debug] [2019-02-25T02:26:34.166Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'infosync-solutions'...
+[info] 
+[info] i  deploying hosting
+[debug] [2019-02-25T02:26:34.171Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/infosync-solutions/versions  
+
+[debug] [2019-02-25T02:26:36.044Z] <<< HTTP RESPONSE 200
+[info] i  hosting[infosync-solutions]: beginning deploy...
+[info] i  hosting[infosync-solutions]: found 33 files in build
+[debug] [2019-02-25T02:26:36.065Z] [hosting] hash cache [YnVpbGQ] load error: lines is not defined
+[debug] [2019-02-25T02:26:36.481Z] [hosting] hash cache [YnVpbGQ] stored for 33 files
+[debug] [2019-02-25T02:26:36.482Z] [hosting][hash queue][FINAL]
+[debug] [2019-02-25T02:26:36.482Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/infosync-solutions/versions/a4d4e9648c99bf13:populateFiles  
+ <request body omitted>
+[debug] [2019-02-25T02:26:38.424Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-25T02:26:38.429Z] [hosting][populate queue][FINAL]
+[debug] [2019-02-25T02:26:38.430Z] [hosting] uploads queued: 6
+[debug] [2019-02-25T02:26:41.401Z] [hosting][upload queue][FINAL]
+[info] ✔  hosting[infosync-solutions]: file upload complete
+[debug] [2019-02-25T02:26:41.401Z] [hosting] deploy completed after 5355ms
