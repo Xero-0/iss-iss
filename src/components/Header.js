@@ -21,7 +21,7 @@ export default class Header extends Component {
                         </Row>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6} style={{ textAlign: 'center', marginBottom: 25, padding: 5, lineHeight: 2.5 }}>
-                        <a href='/#services' className='navOption'>Services</a>
+                        <a href='/services' className='navOption'>Services</a>
                         <a href='/#examples' className='navOption'>Examples</a>
                         <a href='/pricing' className='navOption'>Pricing</a>
                     </Col>
