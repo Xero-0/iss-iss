@@ -28,7 +28,7 @@ export default class services extends Component {
     render() {
         const { current } = this.state;
         return (
-            <div style={{ minHeight: '80vh'}}>
+            <div style={{ minHeight: '80vh', marginBottom: 20 }}>
                 <Steps current={current} style={{
                     background: 'white',
                     padding: '20px',
