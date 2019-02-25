@@ -21,15 +21,24 @@ export default class App extends Component {
         } else if (window.location.pathname.includes('/services')) {
             return (
                 <div>
-                    <div id='headerSvg' style={{ height: 140 }} />
+                    <div id='headerSvg' style={{
+                        height: 170,
+                        clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
+                    }} />
                     <div id='servicesSvg' />
                 </div>)
         } else if (window.location.pathname.includes('/examples/')) {
             return <div id='headerSvg' style={{ height: 320 }} />
         } else if (window.location.pathname.includes('/pricing')) {
-            return <div id='headerSvg' style={{ height: 140 }} />
+            return <div id='headerSvg' style={{
+                height: 100,
+                clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
+            }} />
         } else if (window.location.pathname.includes('/contact')) {
-            return <div id='headerSvg' style={{ height: 140 }} />
+            return <div id='headerSvg' style={{
+                height: 100,
+                clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
+            }} />
         } else {
             return <div id='headerSvg' style={{ height: 320 }} />
         }

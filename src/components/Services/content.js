@@ -16,10 +16,10 @@ export const steps = [{
                     <p>Forms can be built to autofill fields, make complex calculations, and only ask/show what is relevant to specific jobs. Sifting through paperwork to find that prestart, timesheet or daily log is a problem of the past.</p>
                 </Col>
             </Row>
-            <div id='examples4' className='quality-checks' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderRight: '2px solid #527cb7',borderBottom: '2px solid #527cb7' }}/>
-
+            
         </div>,
-    icon: <Icon type="mobile" />
+    icon: <Icon type="mobile" />,
+    footImage: <div id='examples4' className='quality-checks' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderTop: '3px solid'}}/>
 }, {
     title: 'Custom Reporting',
     content:
@@ -35,10 +35,10 @@ export const steps = [{
                     <p style={{ fontStyle: 'italic', fontWeight: 600 }}>Know what, where, and when everything is happening, realtime.</p>
                     <p>Automate timesheets, track resources, maintenance, and jobs. If you're capturing the data, its time to start using it.</p></Col>
             </Row>
-            <div id='examples1' className='ohs' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderRight: '2px solid #527cb7',borderBottom: '2px solid #527cb7' }}/>
-
+            
         </div>,
-    icon: <Icon type="file-text" />
+    icon: <Icon type="file-text" />,
+    footImage: <div id='examples1' className='ohs' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderTop: '3px solid'}}/>
 }, {
     title: 'Accessibility',
     content:
@@ -53,9 +53,10 @@ export const steps = [{
                     <p>Clients can then see relevant information to their jobs as it happens. Not only is this type of real-time access to information extremely valuable for your clients; it saves your administration team in contact time and having to build reports manually.</p>
                     <p>With branding and color schemes that match your company presence; clients, subcontractors and employees can obtain, or input information seamlessly.</p></Col>
             </Row>
-            <div id='examples5' className='inductions' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderRight: '2px solid #527cb7',borderBottom: '2px solid #527cb7' }}/>
+            
         </div>,
-    icon: <Icon type="user" />
+    icon: <Icon type="user" />,
+    footImage: <div id='examples5' className='inductions' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderTop: '3px solid'}}/>
 }, {
     title: 'Options',
     content:
@@ -70,7 +71,8 @@ export const steps = [{
                     <p>For example, the image on the left shows an email that is automatically sent to a member of staff when a petty cash reimbursement is logged. It will build a list of items and is in a format that is understandable. </p>
                     <p>This simple functionality has been used from notifying maintenance teams of plant marked as not operational, to simply applying for leave.</p></Col>
             </Row>
-            <div id='examples2' className='maintenance' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderRight: '2px solid #527cb7',borderBottom: '2px solid #527cb7' }}/>
+            
         </div>,
-    icon: <Icon type="setting" />
+    icon: <Icon type="setting" />,
+    footImage: <div id='examples2' className='maintenance' style={{margin: 0, marginTop: 30, height: 160, opacity: .8, borderRadius: 0, borderTop: '3px solid'}}/>
 }];
