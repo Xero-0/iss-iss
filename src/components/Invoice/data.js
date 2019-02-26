@@ -1,52 +1,13 @@
 import React from 'react'
-export const contactData = [{
-    phone: '0438 436 149',
-    email: 'jim@infosync.solutions',
-    website: 'infosync.solutions',
-}];
-export const contactColumns = [{
-    title: 'Phone',
-    dataIndex: 'phone',
-    key: 'phone',
-}, {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-}, {
-    title: 'Website',
-    dataIndex: 'website',
-    key: 'website',
-    render: (text, record) => <a href={`https://${text}`}>Infosync.solutions</a>
-}];
-
-export const invoiceData = [{
-    date: '26 Feb 2019',
-    doc: '1802312IV',
-    preparedBy: 'Jim Alexander',
-}];
-export const invoiceColumns = [{
-    title: 'Date Sent',
-    dataIndex: 'date',
-    key: 'date',
-    width: 100
-}, {
-    title: 'Doc Id',
-    dataIndex: 'doc',
-    key: 'doc',
-    width: 100
-}, {
-    title: 'Prepared By',
-    dataIndex: 'preparedBy',
-    key: 'preparedBy',
-    width: 100
-}];
+import {Row, Col} from 'antd'
 
 
 export const dataSourceClient = [{
-    item: '2',
-    description: 'John',
-    quantity: 42,
-    total: '10 Downing Street'
+    id: 1,
+    business: 'Simpson Construction',
+    contact: 'Callie Mcdonald',
+    location: '4 Duffy St, Burwood VIC 3125, Australia',
+    Phone: '0438 082 272'
 }];
 export const columnsClient = [{
     title: 'Business',
@@ -60,6 +21,7 @@ export const columnsClient = [{
     title: 'Location',
     dataIndex: 'location',
     key: 'location',
+    className:'invoiceHide',
 }, {
     title: 'Phone',
     dataIndex: 'Phone',
@@ -67,67 +29,65 @@ export const columnsClient = [{
 }];
 
 export const dataSource = [{
+    id: 1,
     item: '1',
-    description: 'Mike',
-    quantity: 32,
-    unitPrice: 1,
-    total: 32
+    category: 'Support',
+    description: 'Account management, portal hosting, and assistance.(Monthly)',
+    quantity: 1,
+    unitPrice: 75,
+    total: 75,
 }, {
+    id: 2,
     item: '2',
-    description: 'John',
-    quantity: 42,
-    unitPrice: 2,
-    total: 84
+    category: 'Email',
+    description: 'Built and integrated automated email (leave request) with office@simcon',
+    quantity: 1,
+    unitPrice: 150,
+    total: 150
 }];
 export const columns = [{
-    title: 'Item',
+    title: 'Item No.',
     dataIndex: 'item',
     key: 'item',
-    width: 100
+    className:'invoiceHide',
+    width: 80
 }, {
     title: 'Category',
     dataIndex: 'category',
     key: 'category',
+    className:'invoiceHide',
     width: 80
 }, {
     title: 'Description',
     dataIndex: 'description',
     key: 'description',
-    width: 250
+    width: 240
 }, {
     title: 'Quantity',
     dataIndex: 'quantity',
     key: 'quantity',
-    width: 50
+    width: 30
 }, {
     title: 'Unit Price',
     dataIndex: 'unitPrice',
     key: 'unitPrice',
-    width: 50
+    render: (text) => {
+        return `$${text.toFixed(2)}`
+    },
+    width: 60
 }, {
     title: 'Total',
     dataIndex: 'total',
     key: 'total',
+    render: (text) => {
+        return `$${text.toFixed(2)}`
+    },
     width: 50
 }];
 
-export const DescriptionItem = ({ title, content }) => (
-    <div style={{
-        fontSize: 15,
-        lineHeight: '22px',
-        marginBottom: 7,
-        color: 'rgba(0,0,0,0.65)',
-        margin: 10,
-        textAlign: 'right'
-    }}>
-        <p style={{
-            marginRight: 8,
-            fontWeight: 600,
-            display: 'inline-block',
-            color: 'rgba(0,0,0,0.85)',
-        }}>
-            {title}:
-        </p>
-        {content}
-    </div>
+export const DescriptionItem = ({ title, content, fontSize, textAlign }) => (
+    <Row style={{ textAlign, margin: 10, fontSize, maxWidth: 300}}>
+        <Col span={12} style={{ fontWeight: 600 }}>{title}</Col>
+        <Col span={12}>{content}</Col>
+    </Row>
 );

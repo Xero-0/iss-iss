@@ -248,6 +248,12 @@
     height: 400px;
     background-size: contain;
 }
+.invoiceImage{
+    background: url('../constants/nav\ logo\ side.png') no-repeat center;
+    height: 50px;
+    margin: 20px;
+    background-size: contain;
+}
 .footer {
     color: #fff
 }
@@ -310,5 +316,19 @@
     }
     .servicesTitle{
         margin-top: 5px;
+    }
+    .smallInvoice td{
+        font-size: smaller
+    }
+    .smallInvoice th{
+        font-size: smaller
+    }
+    .invoiceHide{
+        display: none
+    }
+}
+@media print{
+    .noPrint{
+        display: none
     }
 }

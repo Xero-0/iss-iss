@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import { Row, Col } from "antd";
 
 export default class Footer extends Component {
+    hideThis(){
+        if (window.location.pathname === '/8910-invoice!') {
+            return 'none'
+        }
+    }
     render() {
         return (
             <div>
-                <div style={{ height: 300, background: '#2980b9' }}>
+                <div style={{ height: 300, background: '#2980b9', display: this.hideThis() }}>
                     <Row gutter={30} style={{ maxWidth: 800, margin: 'auto', padding: 40 }}>
                         <Col className='footer' span={12}>
                             <h3 className='footer'>Sitemap</h3>

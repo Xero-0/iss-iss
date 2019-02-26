@@ -3,11 +3,18 @@ import { Row, Col } from 'antd'
 import './index.css'
 
 export default class Header extends Component {
+    hideThis(){
+        if (window.location.pathname === '/8910-invoice!') {
+            return 'none'
+        }
+    }
+    
     render() {
         return (
             <div style={{
                 maxWidth: 1000,
-                margin: '25px auto auto'
+                margin: '25px auto auto',
+                display: this.hideThis()
             }}>
                 <Row gutter={10}>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ textAlign: 'center', marginBottom: 15, padding: 5 }}>
@@ -21,12 +28,12 @@ export default class Header extends Component {
                         </Row>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6} style={{ textAlign: 'center', marginBottom: 25, padding: 5, lineHeight: 2.5 }}>
-                        <a href='/services' className='navOption'>Services</a>
-                        <a href='/#examples' className='navOption'>Examples</a>
-                        <a href='/pricing' className='navOption'>Pricing</a>
+                        <a href='/services' className='navOption noPrint'>Services</a>
+                        <a href='/#examples' className='navOption noPrint'>Examples</a>
+                        <a href='/pricing' className='navOption noPrint'>Pricing</a>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6} style={{ textAlign: 'center', marginBottom: 25, padding: 5, lineHeight: 2.5 }}>
-                        <a href='/contact' className='contactButton'>Contact</a>
+                        <a href='/contact' className='contactButton noPrint'>Contact</a>
                     </Col>
                 </Row>
             </div>
