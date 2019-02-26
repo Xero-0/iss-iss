@@ -8,6 +8,7 @@ import Pricing from './components/Pricing'
 import Contact from './components/Contact'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Invoice from './components/Invoice'
 
 export default class App extends Component {
     backgroundSvgs() {
@@ -59,6 +60,7 @@ export default class App extends Component {
                             <Route path='/examples' component={Examples} />
                             <Route path='/pricing' component={Pricing} />
                             <Route path='/contact' component={Contact} />
+                            <Route path='/8910-invoice!' component={Invoice} />
                         </div>
                     </Router>
                 </div>
