@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Row, Col } from 'antd'
+import { Table, Row, Col, message} from 'antd'
 import { db } from '../../firebase'
 import * as data from './data'
 
@@ -18,35 +18,39 @@ export default class Invoice extends Component {
         // db.createClient('Simpson Construction', "Callie Mcdonald", "4 Duffy St, Burwood VIC 3125, Australia", "0438 082 272") 
         // db.createInvoice("-LZgdUJq9aqeTb_IsZ2c", '27th Feb 2019', 0, 'Jim Alexander') 
         const invoiceNumber = window.location.pathname.replace('/invoice/', '');
-
-        db.getInvoice(invoiceNumber)
-            .then(resp => {
-                this.setState({
-                    data: resp.val(),
-                    docId: resp.key
-                })
-            })
-            .then(() => {
-                db.getClient(this.state.data.clientId)
-                    .then(client => this.setState({
-                        client: [{
-                            id: 1,
-                            businessName: client.val().businessName,
-                            contactName: client.val().contactName,
-                            location: client.val().location,
-                            phone: client.val().phone,
-                        }],
-                        loading: false,
-                    }))
-                    .catch(err => {
-                        this.setState({ loading: false });
-                        console.log(err)
+        if (invoiceNumber) {
+            db.getInvoice(invoiceNumber)
+                .then(resp => {
+                    this.setState({
+                        data: resp.val(),
+                        docId: resp.key
                     })
-            })
-            .catch(err => {
-                this.setState({ loading: false });
-                console.log(err)
-            })
+                })
+                .then(() => {
+                    db.getClient(this.state.data.clientId)
+                        .then(client => this.setState({
+                            client: [{
+                                id: 1,
+                                businessName: client.val().businessName,
+                                contactName: client.val().contactName,
+                                location: client.val().location,
+                                phone: client.val().phone,
+                            }],
+                            loading: false,
+                        }))
+                        .catch(err => {
+                            this.setState({ loading: false });
+                            console.log(err)
+                        })
+                })
+                .catch(err => {
+                    this.setState({ loading: false });
+                    console.log(err)
+                })
+        } else {
+            this.setState({loading: false})
+            message.error('An invoice number has not been provided. Please double check the link or URL.',0)
+        }
         window.addEventListener('resize', this.resize)
     }
     resize = () => this.forceUpdate()

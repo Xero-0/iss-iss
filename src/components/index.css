@@ -2,7 +2,7 @@
     -webkit-clip-path: polygon(0 0, 100% 0, 72% 100%, 0% 100%);
     clip-path: polygon(0 0, 100% 0, 72% 100%, 0% 100%);
     position: absolute;
-    background-color: #2980b9;
+    background: linear-gradient(to bottom right, #2980b9, #38b6ff);
     height: 650px;
     width: 50%;
     top: 0;
@@ -288,7 +288,7 @@
         -webkit-clip-path: polygon(0 0, 100% 0, 72% 100%, 0% 100%);
         clip-path: polygon(0 0, 100% 0, 72% 100%, 0% 100%);
         position: absolute;
-        background-color: #2980b9;
+        background: linear-gradient(to bottom right, #2980b9, #38b6ff);
         height: 480px;
         width: 25%;
         top: 0
