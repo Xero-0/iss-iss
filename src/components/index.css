@@ -282,7 +282,6 @@
 #backTop {
     display: none
 }
-
 @media only screen and (max-width: 767px) {
     #headerSvg {
         -webkit-clip-path: polygon(0 0, 100% 0, 72% 100%, 0% 100%);
@@ -329,6 +328,6 @@
 }
 @media print{
     .noPrint{
-        display: none
+        display: none !important
     }
 }

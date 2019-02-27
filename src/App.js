@@ -42,10 +42,11 @@ export default class App extends Component {
             }} />
         } else if (window.location.pathname.includes('/invoice')) {
             return <div id='headerSvg' style={{
-                height: 350,
+                height: '100%',
                 clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
-                width:' 100%'
-            }} />
+                width:' 100%',
+                position: 'fixed'
+            }} className='noPrint'/>
         } else {
             return <div id='headerSvg' style={{ height: 320 }} />
         }

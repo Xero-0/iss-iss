@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Row, Col, message} from 'antd'
+import { Table, Row, Col, message, Button, Popover } from 'antd'
 import { db } from '../../firebase'
 import * as data from './data'
 
@@ -40,16 +40,18 @@ export default class Invoice extends Component {
                         }))
                         .catch(err => {
                             this.setState({ loading: false });
+                            message.error('An error has occured, please check the link or your internet connection.', 0)
                             console.log(err)
                         })
                 })
                 .catch(err => {
                     this.setState({ loading: false });
+                    message.error('An error has occured, please check the link or your internet connection.', 0)
                     console.log(err)
                 })
         } else {
-            this.setState({loading: false})
-            message.error('An invoice number has not been provided. Please double check the link or URL.',0)
+            this.setState({ loading: false })
+            message.error('An invoice number has not been provided. Please double check the link or URL.', 0)
         }
         window.addEventListener('resize', this.resize)
     }
@@ -116,7 +118,7 @@ export default class Invoice extends Component {
     }
     render() {
         return (
-            <div style={{ minHeight: 800, backgroundColor: '#fff', padding: this.responsive('padding'), borderRadius: 4, marginTop: 80}}>
+            <div style={{ minHeight: 800, backgroundColor: '#fff', padding: this.responsive('padding'), borderRadius: 4, marginTop: 80, marginBottom: 80 }}>
                 <Row>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <div className='invoiceImage' />
@@ -130,6 +132,7 @@ export default class Invoice extends Component {
                         <data.DescriptionItem title="Phone" content="(+61) 0438 436 149" />
                         <data.DescriptionItem title="Email" content="jim@infosync.solutions" />
                         <data.DescriptionItem title="Website" content="https://www.infosync.solutions" />
+                        <data.DescriptionItem title="ABN" content="31 197 486 237 " />
 
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -171,10 +174,24 @@ export default class Invoice extends Component {
                     </Col>
                     <Col xs={{ span: 24, order: 1 }} sm={{ span: 10, order: 2 }} md={10} lg={10} xl={10} style={{ marginBottom: 20 }}>
                         <data.DescriptionItem title="Subtotal" content={`$${this.state.subTotal}`} textAlign={this.responsive('align')} />
+                        <data.DescriptionItem title="GST" content='N/T' textAlign={this.responsive('align')} />
                         <data.DescriptionItem title="Paid" content={`$${this.state.paid}`} textAlign={this.responsive('align')} />
                         <data.DescriptionItem title="Balance Due" content={`$${this.state.balanceDue}`} fontSize='18px' textAlign={this.responsive('align')} />
                     </Col>
                 </Row>
+                <Popover content={(
+                    <span>To ensure the invoice fits the page, <br />change the 'scale' setting in the print preview.</span>
+                )} title="Tip" trigger="hover" placement='topRight'>
+                    <Button className='noPrint' style={{
+                        borderColor: '#2ecc71',
+                        color: '#2ecc71',
+                        fontWeight: '500',
+                        width: '100%',
+                        maxWidth: '100px',
+                    }} onClick={() => window.print()}>Print</Button>
+                </Popover>
+
+
             </div>
         )
     }
