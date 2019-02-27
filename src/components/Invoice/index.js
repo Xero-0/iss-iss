@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Row, Col, message, Button, Popover } from 'antd'
+import { Table, Row, Col, message, Button } from 'antd'
 import { db } from '../../firebase'
 import * as data from './data'
 
@@ -179,19 +179,16 @@ export default class Invoice extends Component {
                         <data.DescriptionItem title="Balance Due" content={`$${this.state.balanceDue}`} fontSize='18px' textAlign={this.responsive('align')} />
                     </Col>
                 </Row>
-                <Popover content={(
-                    <span>To ensure the invoice fits the page, <br />change the 'scale' setting in the print preview.</span>
-                )} title="Tip" trigger="hover" placement='topRight'>
+                <Row>
                     <Button className='noPrint' style={{
                         borderColor: '#2ecc71',
                         color: '#2ecc71',
                         fontWeight: '500',
                         width: '100%',
                         maxWidth: '100px',
+                        margin: 10
                     }} onClick={() => window.print()}>Print</Button>
-                </Popover>
-
-
+                </Row>
             </div>
         )
     }
