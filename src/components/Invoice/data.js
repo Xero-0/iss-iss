@@ -1,22 +1,14 @@
 import React from 'react'
 import {Row, Col} from 'antd'
 
-
-export const dataSourceClient = [{
-    id: 1,
-    business: 'Simpson Construction',
-    contact: 'Callie Mcdonald',
-    location: '4 Duffy St, Burwood VIC 3125, Australia',
-    Phone: '0438 082 272'
-}];
 export const columnsClient = [{
     title: 'Business',
-    dataIndex: 'business',
-    key: 'business',
+    dataIndex: 'businessName',
+    key: 'businessName',
 }, {
     title: 'Contact Name',
-    dataIndex: 'contact',
-    key: 'contact',
+    dataIndex: 'contactName',
+    key: 'contactName',
 }, {
     title: 'Location',
     dataIndex: 'location',
@@ -24,26 +16,8 @@ export const columnsClient = [{
     className:'invoiceHide',
 }, {
     title: 'Phone',
-    dataIndex: 'Phone',
-    key: 'Phone',
-}];
-
-export const dataSource = [{
-    id: 1,
-    item: '1',
-    category: 'Support',
-    description: 'Account management, portal hosting, and assistance.(Monthly)',
-    quantity: 1,
-    unitPrice: 75,
-    total: 75,
-}, {
-    id: 2,
-    item: '2',
-    category: 'Email',
-    description: 'Built and integrated automated email (leave request) with office@simcon',
-    quantity: 1,
-    unitPrice: 150,
-    total: 150
+    dataIndex: 'phone',
+    key: 'phone',
 }];
 export const columns = [{
     title: 'Item No.',
@@ -86,7 +60,7 @@ export const columns = [{
 }];
 
 export const DescriptionItem = ({ title, content, fontSize, textAlign }) => (
-    <Row style={{ textAlign, margin: 10, fontSize, maxWidth: 300}}>
+    <Row style={{ textAlign, margin: 10, fontSize}}>
         <Col span={12} style={{ fontWeight: 600 }}>{title}</Col>
         <Col span={12}>{content}</Col>
     </Row>

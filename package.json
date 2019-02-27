@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.13.0",
     "email-validator": "^2.0.4",
+    "firebase": "^5.8.4",
     "fulcrum-app": "^2.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

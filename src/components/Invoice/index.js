@@ -1,25 +1,104 @@
 import React, { Component } from 'react'
 import { Table, Row, Col } from 'antd'
+import { db } from '../../firebase'
 import * as data from './data'
 
 export default class Invoice extends Component {
     state = {
         subTotal: null,
         paid: null,
-        balanceDue: null
+        balanceDue: null,
+        data: [],
+        items: [],
+        client: null
     }
     componentDidMount = () => {
+        db.getInvoice('ISI-19-2')
+            .then(resp => {
+                this.setState({ data: resp.val() })
+            })
+            .then(() => {
+                db.getClient(this.state.data.clientId)
+                    .then(client => this.setState({
+                        client: [{
+                            id: 1,
+                            businessName: client.val().businessName,
+                            contactName: client.val().contactName,
+                            location: client.val().location,
+                            phone: client.val().phone,
+
+                        }]
+                    }))
+                    .catch(err => console.log(err))
+            })
+            .catch(err => console.log(err))
+        window.addEventListener('resize', this.resize)
+    }
+    resize = () => this.forceUpdate()
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState.data !== this.state.data) {
+            this.calc()
+        }
+    }
+    calc() {
         let subTotal = 0
-        data.dataSource.forEach(item => {
-            subTotal += item.total
+        let balanceDue = 0
+        let paid = this.state.data.paid
+        let items = []
+        if (this.state.data.productsServices) {
+            for (let i = 0; i < this.state.data.productsServices.length; i++) {
+                const element = this.state.data.productsServices[i];
+                if (element) {
+                    items.push({
+                        id: i,
+                        item: i,
+                        category: element.category,
+                        description: element.description,
+                        quantity: element.quantity,
+                        unitPrice: element.unitPrice,
+                        total: element.quantity * element.unitPrice,
+                    })
+                    subTotal += (element.quantity * element.unitPrice)
+                }
+
+            }
+        }
+        balanceDue = subTotal - paid
+        this.setState({
+            subTotal: subTotal.toFixed(2),
+            balanceDue: balanceDue.toFixed(2),
+            paid: paid.toFixed(2),
+            items
         })
-        this.setState({ subTotal: subTotal.toFixed(2) })
-        this.setState({ balanceDue: subTotal.toFixed(2) })
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.resize)
+    }
+    responsive(type) {
+        if (type === 'padding') {
+            if (window.innerWidth < 767) {
+                return 20
+            }
+            else return 40
+        } else if (type === 'table') {
+            if (window.innerWidth < 767) {
+                return 'small'
+            }
+            else return 'medium'
+        } else if (type === 'align') {
+            if (window.innerWidth < 767) {
+                return 'left'
+            }
+            else return 'right'
+        }
     }
 
     render() {
+        console.log(this.state);
+
         return (
-            <div style={{ minHeight: 800, backgroundColor: '#fff', padding: 40, borderRadius: 4, marginTop: 80 }}>
+            <div style={{ minHeight: 800, backgroundColor: '#fff', padding: this.responsive('padding'), borderRadius: 4, marginTop: 80 }}>
                 <Row>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <div className='invoiceImage' />
@@ -41,14 +120,13 @@ export default class Invoice extends Component {
                         <data.DescriptionItem title="Prepared By" content="Jim Alexander" />
                     </Col>
                 </Row>
-
                 <h2 style={{ marginLeft: 20 }}>Client</h2>
                 <Table
-                    dataSource={data.dataSourceClient}
+                    dataSource={this.state.client}
                     columns={data.columnsClient}
                     pagination={false}
                     bordered
-                    size='medium'
+                    size={this.responsive('table')}
                     rowKey='id'
                     style={{
                         marginBottom: 20
@@ -57,25 +135,24 @@ export default class Invoice extends Component {
 
                 <h2 style={{ marginLeft: 20 }}>Products & Services</h2>
                 <Table
-                    dataSource={data.dataSource}
+                    dataSource={this.state.items}
                     columns={data.columns}
                     pagination={false}
-                    size='medium'
+                    size={this.responsive('table')}
                     rowKey='id'
                     bordered
                     style={{ marginBottom: 20 }}
                     className='smallInvoice' />
-                <Row>
-                    <Col xs={24} sm={14} md={14} lg={14} xl={14}>
+                <Row type='flex'>
+                    <Col xs={{ span: 24, order: 2 }} sm={{ span: 14, order: 1 }} md={14} lg={14} xl={14}>
                         <h2 style={{ marginLeft: 20 }}>Payment Details</h2>
                         <data.DescriptionItem title="BSB" content="063-097" />
                         <data.DescriptionItem title="Account Number" content="2069 2047" />
                     </Col>
-                    <Col xs={24} sm={10} md={10} lg={10} xl={10}>
-                        <data.DescriptionItem title="Subtotal" content={`A$${this.state.subTotal}`} textAlign='right' />
-                        <data.DescriptionItem title="Paid" content="$0.00" textAlign='right' />
-                        {/* <div style={{ borderBottom: '2px solid #0084bb' }} /> */}
-                        <data.DescriptionItem title="Balance Due" content={`A$${this.state.balanceDue}`} fontSize='20px' textAlign='right' />
+                    <Col xs={{ span: 24, order: 1 }} sm={{ span: 10, order: 2 }} md={10} lg={10} xl={10} style={{ marginBottom: 20 }}>
+                        <data.DescriptionItem title="Subtotal" content={`$${this.state.subTotal}`} textAlign={this.responsive('align')} />
+                        <data.DescriptionItem title="Paid" content={`$${this.state.paid}`} textAlign={this.responsive('align')} />
+                        <data.DescriptionItem title="Balance Due" content={`$${this.state.balanceDue}`} fontSize='18px' textAlign={this.responsive('align')} />
                     </Col>
                 </Row>
             </div>
