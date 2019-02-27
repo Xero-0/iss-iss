@@ -40,8 +40,7 @@ export default class App extends Component {
                 height: 100,
                 clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
             }} />
-        }
-        else if (window.location.pathname === '/8910-invoice!') {
+        } else if (window.location.pathname.includes('/invoice')) {
             return <div id='headerSvg' style={{
                 height: 350,
                 clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
@@ -50,6 +49,7 @@ export default class App extends Component {
         } else {
             return <div id='headerSvg' style={{ height: 320 }} />
         }
+        
     }
     render() {
         return (
@@ -67,7 +67,7 @@ export default class App extends Component {
                             <Route path='/examples' component={Examples} />
                             <Route path='/pricing' component={Pricing} />
                             <Route path='/contact' component={Contact} />
-                            <Route path='/8910-invoice!' component={Invoice} />
+                            <Route path='/invoice' component={Invoice} />
                         </div>
                     </Router>
                 </div>

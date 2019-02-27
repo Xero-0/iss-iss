@@ -4,7 +4,7 @@ import './index.css'
 
 export default class Header extends Component {
     hideThis(){
-        if (window.location.pathname === '/8910-invoice!') {
+        if (window.location.pathname.includes('/invoice')) {
             return 'none'
         }
     }

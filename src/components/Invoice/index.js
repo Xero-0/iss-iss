@@ -5,17 +5,26 @@ import * as data from './data'
 
 export default class Invoice extends Component {
     state = {
+        loading: true,
         subTotal: null,
         paid: null,
         balanceDue: null,
         data: [],
         items: [],
-        client: null
+        client: null,
+        docId: null
     }
     componentDidMount = () => {
-        db.getInvoice('ISI-19-2')
+        // db.createClient('Simpson Construction', "Callie Mcdonald", "4 Duffy St, Burwood VIC 3125, Australia", "0438 082 272") 
+        // db.createInvoice("-LZgdUJq9aqeTb_IsZ2c", '27th Feb 2019', 0, 'Jim Alexander') 
+        const invoiceNumber = window.location.pathname.replace('/invoice/', '');
+
+        db.getInvoice(invoiceNumber)
             .then(resp => {
-                this.setState({ data: resp.val() })
+                this.setState({
+                    data: resp.val(),
+                    docId: resp.key
+                })
             })
             .then(() => {
                 db.getClient(this.state.data.clientId)
@@ -26,16 +35,21 @@ export default class Invoice extends Component {
                             contactName: client.val().contactName,
                             location: client.val().location,
                             phone: client.val().phone,
-
-                        }]
+                        }],
+                        loading: false,
                     }))
-                    .catch(err => console.log(err))
+                    .catch(err => {
+                        this.setState({ loading: false });
+                        console.log(err)
+                    })
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                this.setState({ loading: false });
+                console.log(err)
+            })
         window.addEventListener('resize', this.resize)
     }
     resize = () => this.forceUpdate()
-
     componentDidUpdate = (prevProps, prevState) => {
         if (prevState.data !== this.state.data) {
             this.calc()
@@ -44,26 +58,29 @@ export default class Invoice extends Component {
     calc() {
         let subTotal = 0
         let balanceDue = 0
-        let paid = this.state.data.paid
+        let paid = (this.state.data) ? this.state.data.paid : 0
         let items = []
-        if (this.state.data.productsServices) {
-            for (let i = 0; i < this.state.data.productsServices.length; i++) {
-                const element = this.state.data.productsServices[i];
-                if (element) {
-                    items.push({
-                        id: i,
-                        item: i,
-                        category: element.category,
-                        description: element.description,
-                        quantity: element.quantity,
-                        unitPrice: element.unitPrice,
-                        total: element.quantity * element.unitPrice,
-                    })
-                    subTotal += (element.quantity * element.unitPrice)
-                }
+        if (this.state.data) {
+            if (this.state.data.productsServices) {
+                for (let i = 0; i < this.state.data.productsServices.length; i++) {
+                    const element = this.state.data.productsServices[i];
+                    if (element) {
+                        items.push({
+                            id: i,
+                            item: i,
+                            category: element.category,
+                            description: element.description,
+                            quantity: element.quantity,
+                            unitPrice: element.unitPrice,
+                            total: element.quantity * element.unitPrice,
+                        })
+                        subTotal += (element.quantity * element.unitPrice)
+                    }
 
+                }
             }
         }
+
         balanceDue = subTotal - paid
         this.setState({
             subTotal: subTotal.toFixed(2),
@@ -93,10 +110,7 @@ export default class Invoice extends Component {
             else return 'right'
         }
     }
-
     render() {
-        console.log(this.state);
-
         return (
             <div style={{ minHeight: 800, backgroundColor: '#fff', padding: this.responsive('padding'), borderRadius: 4, marginTop: 80 }}>
                 <Row>
@@ -115,9 +129,9 @@ export default class Invoice extends Component {
 
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <data.DescriptionItem title="Date Sent" content="26th Feb 2019" />
-                        <data.DescriptionItem title="Doc Id" content="ISI-19-2" />
-                        <data.DescriptionItem title="Prepared By" content="Jim Alexander" />
+                        <data.DescriptionItem title="Date Sent" content={(this.state.data) ? this.state.data.dateSent : null} />
+                        <data.DescriptionItem title="Unique Id" content={this.state.docId} />
+                        <data.DescriptionItem title="Prepared By" content={(this.state.data) ? this.state.data.preparedBy : null} />
                     </Col>
                 </Row>
                 <h2 style={{ marginLeft: 20 }}>Client</h2>
@@ -126,6 +140,7 @@ export default class Invoice extends Component {
                     columns={data.columnsClient}
                     pagination={false}
                     bordered
+                    loading={this.state.loading}
                     size={this.responsive('table')}
                     rowKey='id'
                     style={{
@@ -141,6 +156,7 @@ export default class Invoice extends Component {
                     size={this.responsive('table')}
                     rowKey='id'
                     bordered
+                    loading={this.state.loading}
                     style={{ marginBottom: 20 }}
                     className='smallInvoice' />
                 <Row type='flex'>
