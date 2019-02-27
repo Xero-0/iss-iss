@@ -58,7 +58,7 @@ export default class App extends Component {
                     <div className="ant-back-top-inner">Top</div>
                 </BackTop>
                 {this.backgroundSvgs()}
-                <div style={{ maxWidth: 1000, margin: 'auto', paddingLeft: 20, paddingRight: 20 }}>
+                <div style={{ maxWidth: 1000, margin: 'auto', paddingLeft: 20, paddingRight: 20, overflow: 'auto' }}>
                     <Header />
                     <Router>
                         <div>
