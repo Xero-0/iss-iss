@@ -9,6 +9,7 @@ import Contact from './components/Contact'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Invoice from './components/Invoice'
+import Create from './components/Create'
 
 export default class App extends Component {
     backgroundSvgs() {
@@ -40,7 +41,7 @@ export default class App extends Component {
                 height: 100,
                 clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
             }} />
-        } else if (window.location.pathname.includes('/invoice')) {
+        } else if (window.location.pathname.includes('/invoice') || window.location.pathname.includes('/create')) {
             return <div id='headerSvg' style={{
                 height: '100%',
                 clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
@@ -69,6 +70,7 @@ export default class App extends Component {
                             <Route path='/pricing' component={Pricing} />
                             <Route path='/contact' component={Contact} />
                             <Route path='/invoice' component={Invoice} />
+                            <Route path='/create' component={Create} />
                         </div>
                     </Router>
                 </div>

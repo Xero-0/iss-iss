@@ -3,7 +3,7 @@ import { Row, Col } from "antd";
 
 export default class Footer extends Component {
     hideThis(){
-        if (window.location.pathname.includes('/invoice')) {
+        if (window.location.pathname.includes('/invoice') || window.location.pathname.includes('/create')) {
             return 'none'
         }
     }
