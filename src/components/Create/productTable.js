@@ -61,13 +61,6 @@ export default class EditableTable extends React.Component {
         this.state = { data: [], editingKey: '' };
         this.columns = [
             {
-                title: 'Item No.',
-                dataIndex: 'key',
-                key: 'key',
-                className: 'invoiceHide',
-                width: 80,
-                editable: true
-            }, {
                 title: 'Category',
                 dataIndex: 'category',
                 key: 'category',
@@ -142,12 +135,10 @@ export default class EditableTable extends React.Component {
         this.setState({
             data: [...this.state.data, {
                 key: this.state.data.length + 1,
-                item: '',
                 category: '',
                 description: '',
-                quantity: 0,
-                unitPrice: 0,
-                total: 0
+                quantity: null,
+                unitPrice: null,
             }]
         })
     }
@@ -195,7 +186,6 @@ export default class EditableTable extends React.Component {
                 cell: EditableCell,
             },
         };
-
         const columns = this.columns.map((col) => {
             if (!col.editable) {
                 return col;
@@ -204,7 +194,7 @@ export default class EditableTable extends React.Component {
                 ...col,
                 onCell: record => ({
                     record,
-                    inputType: col.dataIndex === 'age' ? 'number' : 'text',
+                    inputType: ((col.dataIndex === 'quantity') || (col.dataIndex === 'unitPrice')) ? 'number' : 'text',
                     dataIndex: col.dataIndex,
                     title: col.title,
                     editing: this.isEditing(record),
@@ -218,12 +208,13 @@ export default class EditableTable extends React.Component {
                         <h3 style={{ paddingTop: 5 }}>Products & Services</h3>
                     </Col>
                     <Col span={16} style={{ textAlign: 'right' }}>
-                        <Button style={{ marginBottom: 10, width: '100%', maxWidth: 200 }} onClick={() => this.createItem()}>Add Item</Button>
+                        <Button type='primary' ghost style={{ marginBottom: 10, width: '100%', maxWidth: 200 }} onClick={() => this.createItem()}>Add Item</Button>
                     </Col>
                 </Row>
                 <Table
                     components={components}
                     bordered
+                    locale={{ emptyText: 'No Data' }}
                     dataSource={this.state.data}
                     columns={columns}
                     rowClassName="editable-row"

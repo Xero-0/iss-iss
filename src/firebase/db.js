@@ -8,6 +8,10 @@ export const getInvoice = (id) =>
 export const getClient = (id) =>
   db.ref('/clients/' + id).once('value');
 
+export const getAllClients = () =>
+  db.ref('/clients').once('value');
+
+
 export const createClient = (businessName, contactName, location, phone) =>
   db.ref('/clients/').push({
     businessName,
@@ -16,10 +20,11 @@ export const createClient = (businessName, contactName, location, phone) =>
     phone
   });
 
-export const createInvoice = (clientId, dateSent, paid, preparedBy) =>
+export const createInvoice = (obj) =>
   db.ref('/invoices/').push({
-    clientId,
-    dateSent,
-    paid,
-    preparedBy
+    clientId: obj.clientId,
+    dateSent: obj.dateSent,
+    paid: obj.paid,
+    preparedBy: obj.preparedBy,
+    productsServices: obj.productsServices
   });
