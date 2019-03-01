@@ -9,7 +9,7 @@ import Contact from './components/Contact'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Invoice from './components/Invoice'
-import Create from './components/Create'
+import CreateEdit from './components/CreateEdit'
 
 export default class App extends Component {
     backgroundSvgs() {
@@ -70,7 +70,7 @@ export default class App extends Component {
                             <Route path='/pricing' component={Pricing} />
                             <Route path='/contact' component={Contact} />
                             <Route path='/invoice' component={Invoice} />
-                            <Route path='/create' component={Create} />
+                            <Route path='/create-edit' component={CreateEdit} />
                         </div>
                     </Router>
                 </div>

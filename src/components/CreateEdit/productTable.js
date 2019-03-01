@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Input, InputNumber, Form, Row, Col, Button } from 'antd';
+import { Table, Input, InputNumber, Form, Button } from 'antd';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -109,13 +109,13 @@ export default class EditableTable extends React.Component {
                                         {form => (
                                             <span
                                                 onClick={() => this.save(form, record.key)}
-                                                style={{ marginRight: 8, color: '#27ae60' }}>
+                                                style={{ marginRight: 8, color: '#16a085' }}>
                                                 Save
                                             </span>
                                         )}
                                     </EditableContext.Consumer>
-                                    <span onClick={() => this.cancel(record.key)} style={{ marginRight: 8 }}>Cancel</span>
-                                    <span onClick={() => this.handleDelete(record.key)} style={{ color: '#c0392b' }}>Delete</span>
+                                    {/* <span onClick={() => this.cancel(record.key)} style={{ marginRight: 8 }}>Cancel</span> */}
+                                    <span onClick={() => this.handleDelete(record.key)} style={{ color: '#2c3e50' }}>Delete</span>
                                 </span>
                             ) : (
                                     <span style={{ color: '#2980b9' }} onClick={() => this.edit(record.key)}>Edit</span>
@@ -129,6 +129,12 @@ export default class EditableTable extends React.Component {
     componentDidUpdate = (prevProps, prevState) => {
         if (prevState.data !== this.state.data) {
             this.props.edited(this.state.data)
+
+        }
+        if (prevProps.existingProducts !== this.props.existingProducts) {
+            this.setState({ data: this.props.existingProducts})
+            console.log(this.props.existingProducts);
+            
         }
     }
     createItem() {
@@ -139,14 +145,14 @@ export default class EditableTable extends React.Component {
                 description: '',
                 quantity: null,
                 unitPrice: null,
-            }]
+            }],
+            editingKey: this.state.data.length + 1
         })
     }
     handleDelete = (key) => {
         const dataSource = [...this.state.data];
         this.setState({ data: dataSource.filter(item => item.key !== key) });
     }
-
     isEditing = record => record.key === this.state.editingKey;
 
     cancel = () => {
@@ -155,11 +161,15 @@ export default class EditableTable extends React.Component {
 
     save(form, key) {
         form.validateFields((error, row) => {
-            if (error) {
-                return;
-            }
             const newData = [...this.state.data];
             const index = newData.findIndex(record => key === record.key);
+            if (error || (!row.category && !row.description && !row.quantity && !row.unitPrice)) {
+                this.handleDelete(newData[index].key)
+
+
+                return;
+            }
+
             if (index > -1) {
                 const item = newData[index];
                 newData.splice(index, 1, {
@@ -203,14 +213,7 @@ export default class EditableTable extends React.Component {
         });
         return (
             <div>
-                <Row style={{ marginTop: 20 }}>
-                    <Col span={8}>
-                        <h3 style={{ paddingTop: 5 }}>Products & Services</h3>
-                    </Col>
-                    <Col span={16} style={{ textAlign: 'right' }}>
-                        <Button type='primary' ghost style={{ marginBottom: 10, width: '100%', maxWidth: 200 }} onClick={() => this.createItem()}>Add Item</Button>
-                    </Col>
-                </Row>
+                <h3 style={{ paddingTop: 5 }}>Products & Services</h3>
                 <Table
                     components={components}
                     bordered
@@ -221,6 +224,7 @@ export default class EditableTable extends React.Component {
                     pagination={false}
                     size='medium'
                 />
+                <Button type='primary' ghost style={{ marginTop: 20, width: '100%', maxWidth: 200 }} onClick={() => this.createItem()}>Add Item</Button>
             </div>
         );
     }
