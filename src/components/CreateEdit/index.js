@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { Row, Col, Select, Input, Button, Divider, InputNumber, message } from 'antd'
 import EditableTable from './productTable'
 import moment from 'moment'
-import { db } from '../../firebase'
+import { db, auth } from '../../firebase'
 
 export default class CreateEdit extends Component {
     constructor() {
         super();
         this.state = {
+            signedIn: false,
             docId: null,
             loadedDoc: null,
             createType: 'Invoice',
@@ -17,33 +18,44 @@ export default class CreateEdit extends Component {
             clientId: null,
             dateSent: moment().format('Do MMM YYYY'),
             preparedBy: null,
-            paid: 0
+            paid: 0,
         }
         this.editData = this.editData.bind(this)
     }
     componentDidMount = () => {
-        db.getAllClients().then(resp => this.setState({ clientsList: resp.val() })).catch(err => console.log(err))
-        db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
+        if (this.state.signedIn) {
+            db.getAllClients().then(resp => this.setState({ clientsList: resp.val() })).catch(err => console.log(err))
+            db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
+        }
+    }
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState.signedIn !== this.state.signedIn) {
+
+            db.getAllClients().then(resp => this.setState({ clientsList: resp.val() })).catch(err => console.log(err))
+            db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
+        }
     }
     loadDoc(id) {
-        db.getInvoice(id)
-            .then(resp => {
-                let doc = resp.val()
-                this.setState({
-                    clientId: doc.clientId,
-                    dateSent: doc.dateSent,
-                    paid: doc.paid,
-                    preparedBy: doc.preparedBy,
-                    productsServices: doc.productsServices
+        if (this.state.signedIn) {
+            db.getInvoice(id)
+                .then(resp => {
+                    let doc = resp.val()
+                    this.setState({
+                        clientId: doc.clientId,
+                        dateSent: doc.dateSent,
+                        paid: doc.paid,
+                        preparedBy: doc.preparedBy,
+                        productsServices: doc.productsServices,
+                    })
+                    message.success('Doc Loaded')
                 })
-                message.success('Doc Loaded')
-            })
-            .catch(err => {
-                message.error('An error occured.', 5)
-                console.log(err)
-            })
-    }
+                .catch(err => {
+                    message.error('An error occured.', 5)
+                    console.log(err)
+                })
+        }
 
+    }
     descriptionItem = (title, field, placeHolder, defaultValue) => {
         let inputType;
         if (field === 'clientId') {
@@ -76,8 +88,9 @@ export default class CreateEdit extends Component {
                 <a href={`https://infosync.solutions/invoice/${this.state.docId}`} target='_blank' rel="noopener noreferrer">
                     <span style={{
                         lineHeight: 2.3,
-                        color: '#2980b9'
-                    }}>View</span></a>
+                        color: '#2980b9',
+                        textAlign: 'center'
+                    }}>View Invoice</span></a>
             )
         }
         return null
@@ -88,13 +101,13 @@ export default class CreateEdit extends Component {
                 <div>
                     <Row style={{ marginBottom: 20 }} gutter={20}>
                         <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <h4>Existing Invoices</h4>
+                            <h4 style={{ lineHeight: 2.2 }}>Existing Invoices</h4>
                         </Col>
-                        <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                        <Col xs={24} sm={24} md={16} lg={16} xl={16}>
                             {this.documentList()}
 
                         </Col>
-                        <Col xs={24} sm={24} md={2} lg={2} xl={2}>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                             {this.viewInvoice()}
 
                         </Col>
@@ -159,12 +172,12 @@ export default class CreateEdit extends Component {
             preparedBy: this.state.preparedBy,
             productsServices: this.state.productsServices
         }
-        if (this.state.docId) {
+        if (this.state.docId && this.state.signedIn) {
             db.updateInvoice(this.state.docId, obj)
             message.success('Invoice updated!', 5)
         } else {
             if (this.state.createType === 'Invoice') {
-                if (this.state.clientId) {
+                if (this.state.clientId && this.state.signedIn) {
                     console.log(obj);
                     db.createInvoice(obj).then(resp => {
                         console.log(resp.key)
@@ -178,13 +191,15 @@ export default class CreateEdit extends Component {
         }
     }
     documentList() {
-        return (
-            <Select value={this.state.docId} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => { this.loadDoc(val); this.setState({ docId: val }) }}>
-                {Object.entries(this.state.docList).map(doc => {
-                    return <Select.Option key={doc[0]} value={doc[0]}>{`Client: ${this.state.clientsList[doc[1].clientId].businessName}  Date:${doc[1].dateSent}`}</Select.Option>
-                })}
-            </Select>
-        )
+        if (this.state.signedIn) {
+            return (
+                <Select value={this.state.docId} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => { this.loadDoc(val); this.setState({ docId: val }) }}>
+                    {Object.entries(this.state.docList).map(doc => {
+                        return <Select.Option key={doc[0]} value={doc[0]}>{`Client: ${this.state.clientsList[doc[1].clientId].businessName}  Date:${doc[1].dateSent}`}</Select.Option>
+                    })}
+                </Select>
+            )
+        }
     }
     totals() {
         // let balanceDue = this.state.paid - ()
@@ -235,7 +250,17 @@ export default class CreateEdit extends Component {
         let text = (this.state.docId) ? 'Save' : 'Create'
         return (
             <Button size='large' style={{ width: '100%', maxWidth: 200, border: '1px solid #2ecc71', color: '#2ecc71' }} onClick={() => this.submitForm()}>{text}</Button>
-
+        )
+    }
+    signIn() {
+        let disabled = (!this.state.signedIn) ? false : true
+        return (
+            <Button style={{
+                color: 'white',
+                background: 'white',
+                borderColor: 'white', 
+                float: 'right'
+            }} disabled={disabled} onClick={() => auth.anonymousSignIn().then(resp => { console.log(resp); this.setState({ signedIn: true }) })}>Sign In</Button>
         )
     }
     render() {
@@ -255,17 +280,7 @@ export default class CreateEdit extends Component {
                             </Select>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {/* <div style={{
-                                position: 'absolute',
-                                margin: 5,
-                                width: 43,
-                                height: 43,
-                                background: 'url(https://www.wheatonadvanceddental.com/wp-content/uploads/2016/11/blonde-guy-smiling.jpg) no-repeat center',
-                                borderRadius: 40,
-                                border: '2px solid #e8e8e8',
-                                backgroundSize: 'cover'
-                            }} /> */}
-                            {/* <Input.Search value={this.state.docId} style={{ width: '100%' }} placeholder='Search for existing doc id' onChange={val => this.setState({docId: val.target.value})} onSearch={val => this.loadDoc(val)} /> */}
+                            {this.signIn()}
                         </Col>
                     </Row>
                     <Divider />
