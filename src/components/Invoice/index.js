@@ -116,6 +116,11 @@ export default class Invoice extends Component {
             else return 'right'
         }
     }
+    moneyFormat(num) {
+        return (
+            new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'AUD' }).format(num)
+        )
+    }
     render() {
         return (
             <div style={{ minHeight: 800, backgroundColor: '#fff', padding: this.responsive('padding'), borderRadius: 4, marginTop: 80, marginBottom: 80 }}>
@@ -173,10 +178,10 @@ export default class Invoice extends Component {
                         <data.DescriptionItem title="Account Number" content="2069 2047" />
                     </Col>
                     <Col xs={{ span: 24, order: 1 }} sm={{ span: 10, order: 2 }} md={10} lg={10} xl={10} style={{ marginBottom: 20 }}>
-                        <data.DescriptionItem title="Subtotal" content={`$${this.state.subTotal}`} textAlign={this.responsive('align')} />
+                        <data.DescriptionItem title="Subtotal" content={this.moneyFormat(this.state.subTotal)} textAlign={this.responsive('align')} />
                         <data.DescriptionItem title="GST" content='N/T' textAlign={this.responsive('align')} />
-                        <data.DescriptionItem title="Paid" content={`$${this.state.paid}`} textAlign={this.responsive('align')} />
-                        <data.DescriptionItem title="Balance Due" content={`$${this.state.balanceDue}`} fontSize='18px' textAlign={this.responsive('align')} />
+                        <data.DescriptionItem title="Paid" content={this.moneyFormat(this.state.paid)} textAlign={this.responsive('align')} />
+                        <data.DescriptionItem title="Balance Due" content={this.moneyFormat(this.state.balanceDue)} fontSize='18px' textAlign={this.responsive('align')} />
                     </Col>
                 </Row>
                 <Row>

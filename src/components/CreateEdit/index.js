@@ -26,7 +26,6 @@ export default class CreateEdit extends Component {
         db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
     }
     loadDoc(id) {
-        console.log(id);
         db.getInvoice(id)
             .then(resp => {
                 let doc = resp.val()
@@ -71,11 +70,37 @@ export default class CreateEdit extends Component {
     editData(val) {
         this.setState({ productsServices: val })
     }
+    viewInvoice() {
+        if (this.state.docId) {
+            return (
+                <a href={`https://infosync.solutions/invoice/${this.state.docId}`} target='_blank' rel="noopener noreferrer">
+                    <span style={{
+                        lineHeight: 2.3,
+                        color: '#2980b9'
+                    }}>View</span></a>
+            )
+        }
+        return null
+    }
     formType() {
         if (this.state.createType === 'Invoice') {
             return (
                 <div>
+                    <Row style={{ marginBottom: 20 }} gutter={20}>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <h4>Existing Invoices</h4>
+                        </Col>
+                        <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                            {this.documentList()}
+
+                        </Col>
+                        <Col xs={24} sm={24} md={2} lg={2} xl={2}>
+                            {this.viewInvoice()}
+
+                        </Col>
+                    </Row>
                     <h3>Details</h3>
+
                     <Row gutter={20}>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             {this.descriptionItem('Client', 'clientId', 'John Smith', this.state.clientId)}
@@ -93,6 +118,7 @@ export default class CreateEdit extends Component {
                         </Col>
                     </Row>
                     <EditableTable edited={this.editData} existingProducts={this.state.productsServices} />
+                    {this.totals()}
                 </div>
             )
         } else if (this.state.createType === 'Quote') {
@@ -153,17 +179,69 @@ export default class CreateEdit extends Component {
     }
     documentList() {
         return (
-            <Select value={this.state.docId} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => { this.loadDoc(val); this.setState({ docId: val })}}>
+            <Select value={this.state.docId} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => { this.loadDoc(val); this.setState({ docId: val }) }}>
                 {Object.entries(this.state.docList).map(doc => {
-                    return <Select.Option key={doc[0]} value={doc[0]}>{doc[0]}</Select.Option>
+                    return <Select.Option key={doc[0]} value={doc[0]}>{`Client: ${this.state.clientsList[doc[1].clientId].businessName}  Date:${doc[1].dateSent}`}</Select.Option>
                 })}
             </Select>
+        )
+    }
+    totals() {
+        // let balanceDue = this.state.paid - ()
+        let subTotal = 0
+        let paid = this.state.paid
+        let balanceDue = 0
+        this.state.productsServices.forEach(item => {
+            subTotal += (item.quantity * item.unitPrice)
+        })
+        balanceDue = subTotal - paid
+
+        return (
+            <div style={{
+                maxWidth: 250,
+                textAlign: 'right',
+                float: 'right',
+                width: '100%',
+                marginBottom: 20
+            }}>
+                <Row>
+                    <Col span={12}>
+                        <h3>Sub Total</h3>
+                    </Col>
+                    <Col span={12}>
+                        {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'AUD' }).format(subTotal)}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                        <h3>Paid</h3>
+                    </Col>
+                    <Col span={12}>
+                        {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'AUD' }).format(paid)}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                        <h3>Balance Due</h3>
+                    </Col>
+                    <Col span={12}>
+                        {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'AUD' }).format(balanceDue)}
+                    </Col>
+                </Row>
+            </div>
+        )
+    }
+    saveCreate() {
+        let text = (this.state.docId) ? 'Save' : 'Create'
+        return (
+            <Button size='large' style={{ width: '100%', maxWidth: 200, border: '1px solid #2ecc71', color: '#2ecc71' }} onClick={() => this.submitForm()}>{text}</Button>
+
         )
     }
     render() {
         return (
             <div style={{ marginBottom: 80 }}>
-                <h1 style={{ color: '#fff', marginLeft: 40, fontWeight: 600, marginTop: 80, }}>Create & Edit</h1>
+                <h1 style={{ color: '#fff', marginLeft: 40, fontWeight: 600, marginTop: 10, }}>Create & Edit</h1>
                 <div style={{ minHeight: 300, backgroundColor: '#fff', padding: 40, borderRadius: 4 }}>
                     <Row gutter={20}>
                         <Col xs={24} sm={24} md={4} lg={4} xl={4}>
@@ -187,7 +265,6 @@ export default class CreateEdit extends Component {
                                 border: '2px solid #e8e8e8',
                                 backgroundSize: 'cover'
                             }} /> */}
-                            {this.documentList()}
                             {/* <Input.Search value={this.state.docId} style={{ width: '100%' }} placeholder='Search for existing doc id' onChange={val => this.setState({docId: val.target.value})} onSearch={val => this.loadDoc(val)} /> */}
                         </Col>
                     </Row>
@@ -198,7 +275,7 @@ export default class CreateEdit extends Component {
                     <Divider />
                     <Row style={{ marginTop: 30, textAlign: 'right' }} >
                         <Col>
-                            <Button size='large' style={{ width: '100%', maxWidth: 200, border: '1px solid #2ecc71', color: '#2ecc71' }} onClick={() => this.submitForm()}>Save</Button>
+                            {this.saveCreate()}
                         </Col>
                     </Row>
                 </div>

@@ -132,9 +132,7 @@ export default class EditableTable extends React.Component {
 
         }
         if (prevProps.existingProducts !== this.props.existingProducts) {
-            this.setState({ data: this.props.existingProducts})
-            console.log(this.props.existingProducts);
-            
+            this.setState({ data: this.props.existingProducts})           
         }
     }
     createItem() {
