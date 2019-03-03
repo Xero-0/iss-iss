@@ -8,6 +8,8 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
 export const doSignInWithEmailAndPassword = (email, password) =>
   auth.signInWithEmailAndPassword(email, password);
 
+ 
+
 export const anonymousSignIn = () => 
   auth.signInAnonymously()
 

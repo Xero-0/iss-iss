@@ -11,7 +11,7 @@ export default class CreateEdit extends Component {
             signedIn: false,
             docId: null,
             loadedDoc: null,
-            createType: 'Invoice',
+            createType: 'Client',
             clientsList: {},
             docList: {},
             productsServices: [],
@@ -19,6 +19,14 @@ export default class CreateEdit extends Component {
             dateSent: moment().format('Do MMM YYYY'),
             preparedBy: null,
             paid: 0,
+            businessName: null,
+            contactName: null,
+            location: null,
+            phone: null,
+            backgroundGradient: {
+                dark: '#c0392b',
+                light: '#8e44ad'
+            }
         }
         this.editData = this.editData.bind(this)
     }
@@ -30,7 +38,18 @@ export default class CreateEdit extends Component {
     }
     componentDidUpdate = (prevProps, prevState) => {
         if (prevState.signedIn !== this.state.signedIn) {
-
+            if (this.state.signedIn) {
+                db.getAllClients().then(resp => this.setState({ clientsList: resp.val() })).catch(err => console.log(err))
+                db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
+                this.setState({
+                    backgroundGradient: {
+                        dark: '#2980b9',
+                        light: '#38b6ff'
+                    }
+                })
+            }
+        }
+        if (this.state.signedIn && prevState.createType !== this.state.createType) {
             db.getAllClients().then(resp => this.setState({ clientsList: resp.val() })).catch(err => console.log(err))
             db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
         }
@@ -93,7 +112,13 @@ export default class CreateEdit extends Component {
                     }}>View Invoice</span></a>
             )
         }
-        return null
+        return (
+            <span style={{
+                lineHeight: 2.3,
+                color: 'grey',
+                textAlign: 'center'
+            }}>View Invoice</span>
+        )
     }
     formType() {
         if (this.state.createType === 'Invoice') {
@@ -146,18 +171,18 @@ export default class CreateEdit extends Component {
                     <h3>Details</h3>
                     <Row gutter={20}>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Business Name', 'businessName', 'Jill\'s Florist')}
+                            {this.descriptionItem('Business Name', 'businessName', 'Jill\'s Florist', this.state.businessName)}
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Contact Name', 'contactName', 'Jill Doe')}
+                            {this.descriptionItem('Contact Name', 'contactName', 'Jill Doe', this.state.contactName)}
                         </Col>
                     </Row>
                     <Row gutter={20}>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Location', 'location', 'Smith Street')}
+                            {this.descriptionItem('Location', 'location', 'Smith Street', this.state.location)}
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Phone', 'phone', '0412 345 678')}
+                            {this.descriptionItem('Phone', 'phone', '0412 345 678', this.state.phone)}
                         </Col>
                     </Row>
                 </div>
@@ -165,29 +190,43 @@ export default class CreateEdit extends Component {
         }
     }
     submitForm() {
-        let obj = {
+        let invoiceObj = {
             clientId: this.state.clientId,
             dateSent: this.state.dateSent,
             paid: parseFloat(this.state.paid),
             preparedBy: this.state.preparedBy,
             productsServices: this.state.productsServices
         }
-        if (this.state.docId && this.state.signedIn) {
-            db.updateInvoice(this.state.docId, obj)
+        let clientObj = {
+            businessName: this.state.businessName,
+            contactName: this.state.contactName,
+            location: this.state.location,
+            phone: this.state.phone,
+        }
+        if (this.state.docId && this.state.signedIn && this.state.createType === 'Invoice') {
+            db.updateInvoice(this.state.docId, invoiceObj)
             message.success('Invoice updated!', 5)
-        } else {
-            if (this.state.createType === 'Invoice') {
-                if (this.state.clientId && this.state.signedIn) {
-                    console.log(obj);
-                    db.createInvoice(obj).then(resp => {
-                        console.log(resp.key)
-                        this.setState({ docId: resp.key })
-                        message.success(`Invoice Number: ${resp.key}`, 3)
-                    })
-                } else {
-                    message.warning('Select a client.', 5)
-                }
+        } else if (this.state.createType === 'Invoice') {
+
+            if (this.state.clientId && this.state.signedIn) {
+                console.log(invoiceObj);
+                db.createInvoice(invoiceObj).then(resp => {
+                    console.log(resp.key)
+                    this.setState({ docId: resp.key })
+                    message.success(`Invoice Number: ${resp.key}`, 3)
+                })
+            } else {
+                message.warning('Select a client.', 5)
             }
+        } else if (this.state.createType === 'Client' && this.state.signedIn) {
+            db.createClient(clientObj).then(resp => {
+                console.log(resp);
+                message.success('Client added')
+            })
+                .catch(err => {
+                    console.log(err);
+                    message.error('Opps! Somthing happened...')
+                })
         }
     }
     documentList() {
@@ -195,7 +234,7 @@ export default class CreateEdit extends Component {
             return (
                 <Select value={this.state.docId} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => { this.loadDoc(val); this.setState({ docId: val }) }}>
                     {Object.entries(this.state.docList).map(doc => {
-                        return <Select.Option key={doc[0]} value={doc[0]}>{`Client: ${this.state.clientsList[doc[1].clientId].businessName}  Date:${doc[1].dateSent}`}</Select.Option>
+                        return <Select.Option key={doc[0]} value={doc[0]}>{`${this.state.clientsList[doc[1].clientId].businessName} | ${doc[1].dateSent}`}</Select.Option>
                     })}
                 </Select>
             )
@@ -256,9 +295,9 @@ export default class CreateEdit extends Component {
         let disabled = (!this.state.signedIn) ? false : true
         return (
             <Button style={{
-                color: 'white',
-                background: 'white',
-                borderColor: 'white', 
+                // color: 'white',
+                // background: 'white',
+                // borderColor: 'white',
                 float: 'right'
             }} disabled={disabled} onClick={() => auth.anonymousSignIn().then(resp => { console.log(resp); this.setState({ signedIn: true }) })}>Sign In</Button>
         )
@@ -266,7 +305,15 @@ export default class CreateEdit extends Component {
     render() {
         return (
             <div style={{ marginBottom: 80 }}>
-                <h1 style={{ color: '#fff', marginLeft: 40, fontWeight: 600, marginTop: 10, }}>Create & Edit</h1>
+                <div id='headerSvg' style={{
+                    height: '100%',
+                    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+                    width: ' 100%',
+                    position: 'fixed',
+                    left: 0,
+                    background: `linear-gradient(to bottom right, ${this.state.backgroundGradient.dark}, ${this.state.backgroundGradient.light})`
+                }} className='noPrint' />
+                <h1 style={{ color: '#fff', marginLeft: 40, fontWeight: 600, marginTop: 20 }}>Create & Edit</h1>
                 <div style={{ minHeight: 300, backgroundColor: '#fff', padding: 40, borderRadius: 4 }}>
                     <Row gutter={20}>
                         <Col xs={24} sm={24} md={4} lg={4} xl={4}>

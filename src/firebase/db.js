@@ -15,12 +15,12 @@ export const getClient = (id) =>
   db.ref('/invoices').once('value');
 
 
-export const createClient = (businessName, contactName, location, phone) =>
+export const createClient = (clientObj) =>
   db.ref('/clients/').push({
-    businessName,
-    contactName,
-    location,
-    phone
+    businessName: clientObj.businessName,
+    contactName: clientObj.contactName,
+    location: clientObj.location,
+    phone: clientObj.phone
   });
 
 export const createInvoice = (obj) =>
