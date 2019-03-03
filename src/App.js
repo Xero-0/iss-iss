@@ -41,8 +41,15 @@ export default class App extends Component {
                 height: 100,
                 clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
             }} />
-        } else if (window.location.pathname.includes('/invoice') || window.location.pathname.includes('/create')) {
-            return <div />
+        } else if (window.location.pathname.includes('/invoice')) {
+            return <div id='headerSvg' style={{
+                height: '100%',
+                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+                width: ' 100%',
+                position: 'fixed',
+                left: 0,
+                background: 'linear-gradient(to bottom right, #2980b9, #38b6ff)'
+            }} className='noPrint' />
         } else {
             return <div id='headerSvg' style={{ height: 320 }} />
         }

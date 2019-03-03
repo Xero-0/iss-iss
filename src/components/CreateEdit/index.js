@@ -121,71 +121,77 @@ export default class CreateEdit extends Component {
         )
     }
     formType() {
-        if (this.state.createType === 'Invoice') {
-            return (
-                <div>
-                    <Row style={{ marginBottom: 20 }} gutter={20}>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <h4 style={{ lineHeight: 2.2 }}>Existing Invoices</h4>
-                        </Col>
-                        <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-                            {this.documentList()}
+        if (this.state.signedIn) {
+            if (this.state.createType === 'Invoice') {
+                return (
+                    <div>
+                        <Row style={{ marginBottom: 20 }} gutter={20}>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <h4 style={{ lineHeight: 2.2 }}>Existing Invoices</h4>
+                            </Col>
+                            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+                                {this.documentList()}
 
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            {this.viewInvoice()}
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                {this.viewInvoice()}
 
-                        </Col>
-                    </Row>
-                    <h3>Details</h3>
+                            </Col>
+                        </Row>
+                        <h3>Details</h3>
 
-                    <Row gutter={20}>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Client', 'clientId', 'John Smith', this.state.clientId)}
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Date Sent', 'dateSent', '23/05/2019', this.state.dateSent)}
-                        </Col>
-                    </Row>
-                    <Row gutter={20}>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Prepared By', 'preparedBy', 'Jim Alexander', this.state.preparedBy)}
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Ammount Paid', 'paid', '0.00', this.state.paid)}
-                        </Col>
-                    </Row>
-                    <EditableTable edited={this.editData} existingProducts={this.state.productsServices} />
-                    {this.totals()}
-                </div>
-            )
-        } else if (this.state.createType === 'Quote') {
+                        <Row gutter={20}>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Client', 'clientId', 'John Smith', this.state.clientId)}
+                            </Col>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Date Sent', 'dateSent', '23/05/2019', this.state.dateSent)}
+                            </Col>
+                        </Row>
+                        <Row gutter={20}>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Prepared By', 'preparedBy', 'Jim Alexander', this.state.preparedBy)}
+                            </Col>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Ammount Paid', 'paid', '0.00', this.state.paid)}
+                            </Col>
+                        </Row>
+                        <EditableTable edited={this.editData} existingProducts={this.state.productsServices} />
+                        {this.totals()}
+                    </div>
+                )
+            } else if (this.state.createType === 'Quote') {
+                return (
+                    <div>
+                        <h3>Quote</h3>
+                    </div>
+                )
+            } else if (this.state.createType === 'Client') {
+                return (
+                    <div>
+                        <h3>Details</h3>
+                        <Row gutter={20}>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Business Name', 'businessName', 'Jill\'s Florist', this.state.businessName)}
+                            </Col>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Contact Name', 'contactName', 'Jill Doe', this.state.contactName)}
+                            </Col>
+                        </Row>
+                        <Row gutter={20}>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Location', 'location', 'Smith Street', this.state.location)}
+                            </Col>
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {this.descriptionItem('Phone', 'phone', '0412 345 678', this.state.phone)}
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }
+        } else {
             return (
-                <div>
-                    <h3>Quote</h3>
-                </div>
-            )
-        } else if (this.state.createType === 'Client') {
-            return (
-                <div>
-                    <h3>Details</h3>
-                    <Row gutter={20}>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Business Name', 'businessName', 'Jill\'s Florist', this.state.businessName)}
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Contact Name', 'contactName', 'Jill Doe', this.state.contactName)}
-                        </Col>
-                    </Row>
-                    <Row gutter={20}>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Location', 'location', 'Smith Street', this.state.location)}
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            {this.descriptionItem('Phone', 'phone', '0412 345 678', this.state.phone)}
-                        </Col>
-                    </Row>
-                </div>
+                <div><h2>Please sign in to continue.</h2></div>
             )
         }
     }
@@ -287,19 +293,20 @@ export default class CreateEdit extends Component {
     }
     saveCreate() {
         let text = (this.state.docId) ? 'Save' : 'Create'
-        return (
-            <Button size='large' style={{ width: '100%', maxWidth: 200, border: '1px solid #2ecc71', color: '#2ecc71' }} onClick={() => this.submitForm()}>{text}</Button>
-        )
+        if (this.state.signedIn) {
+            return (
+                <Button size='large' style={{ width: '100%', maxWidth: 200, border: '1px solid #2ecc71', color: '#2ecc71' }} onClick={() => this.submitForm()}>{text}</Button>
+            )
+        }
     }
     signIn() {
-        let disabled = (!this.state.signedIn) ? false : true
+        // let disabled = (!this.state.signedIn) ? false : true
+        let func = (!this.state.signedIn) ? auth.anonymousSignIn() : auth.doSignOut()
+        let text = (!this.state.signedIn) ? 'Sign In' : 'Sign Out'
         return (
             <Button style={{
-                // color: 'white',
-                // background: 'white',
-                // borderColor: 'white',
                 float: 'right'
-            }} disabled={disabled} onClick={() => auth.anonymousSignIn().then(resp => { console.log(resp); this.setState({ signedIn: true }) })}>Sign In</Button>
+            }} onClick={() => func.then(resp => { console.log(resp); this.setState({ signedIn: !this.state.signedIn }) })}>{text}</Button>
         )
     }
     render() {
