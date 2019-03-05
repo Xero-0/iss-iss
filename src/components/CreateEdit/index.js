@@ -8,7 +8,7 @@ export default class CreateEdit extends Component {
     constructor() {
         super();
         this.state = {
-            signedIn: true,
+            signedIn: false,
             docId: null,
             loadedDoc: null,
             createType: 'Client',
