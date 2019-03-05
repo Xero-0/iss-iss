@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Select, Input, Button, Divider, InputNumber, message } from 'antd'
+import { Row, Col, Select, Input, Button, Divider, InputNumber, message, Icon } from 'antd'
 import EditableTable from './productTable'
 import moment from 'moment'
 import { db, auth } from '../../firebase'
@@ -8,7 +8,7 @@ export default class CreateEdit extends Component {
     constructor() {
         super();
         this.state = {
-            signedIn: false,
+            signedIn: true,
             docId: null,
             loadedDoc: null,
             createType: 'Client',
@@ -23,10 +23,6 @@ export default class CreateEdit extends Component {
             contactName: null,
             location: null,
             phone: null,
-            backgroundGradient: {
-                dark: '#c0392b',
-                light: '#8e44ad'
-            }
         }
         this.editData = this.editData.bind(this)
     }
@@ -41,44 +37,59 @@ export default class CreateEdit extends Component {
             if (this.state.signedIn) {
                 db.getAllClients().then(resp => this.setState({ clientsList: resp.val() })).catch(err => console.log(err))
                 db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
-                this.setState({
-                    backgroundGradient: {
-                        dark: '#2980b9',
-                        light: '#38b6ff'
-                    }
-                })
             }
         }
         if (this.state.signedIn && prevState.createType !== this.state.createType) {
+            this.clear()
             db.getAllClients().then(resp => this.setState({ clientsList: resp.val() })).catch(err => console.log(err))
             db.getAllInvoices().then(resp => this.setState({ docList: resp.val() })).catch(err => console.log(err))
         }
     }
-    loadDoc(id) {
+    loadDoc(type, id) {
         if (this.state.signedIn) {
-            db.getInvoice(id)
-                .then(resp => {
-                    let doc = resp.val()
-                    this.setState({
-                        clientId: doc.clientId,
-                        dateSent: doc.dateSent,
-                        paid: doc.paid,
-                        preparedBy: doc.preparedBy,
-                        productsServices: doc.productsServices,
+            if (type === 'Invoice') {
+                db.getInvoice(id)
+                    .then(resp => {
+                        let doc = resp.val()
+                        this.setState({
+                            clientId: doc.clientId,
+                            dateSent: doc.dateSent,
+                            paid: doc.paid,
+                            preparedBy: doc.preparedBy,
+                            productsServices: doc.productsServices,
+                        })
+                        message.success('Doc Loaded')
                     })
-                    message.success('Doc Loaded')
-                })
-                .catch(err => {
-                    message.error('An error occured.', 5)
-                    console.log(err)
-                })
+                    .catch(err => {
+                        message.error('An error occured.', 5)
+                        console.log(err)
+                    })
+            } else if (type === 'Client') {
+                this.setState({
+                    businessName: this.state.clientsList[id].businessName,
+                    contactName: this.state.clientsList[id].contactName,
+                    location: this.state.clientsList[id].location,
+                    phone: this.state.clientsList[id].phone,
+                }) 
+            }
         }
-
     }
     descriptionItem = (title, field, placeHolder, defaultValue) => {
         let inputType;
         if (field === 'clientId') {
-            inputType = (<Select value={defaultValue} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => this.setState({ [field]: val })}>
+            inputType = (<Select value={defaultValue} dropdownRender={menu => (
+                <div>
+                    {menu}
+                    <Divider style={{ margin: '4px 0' }} />
+                    <div style={{ padding: '8px', cursor: 'pointer' }} onMouseDown={() => {
+                        this.setState({
+                            createType: 'Client'
+                        })
+                    }}>
+                        <Icon type="plus" /> Add Client
+                  </div>
+                </div>
+            )} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => this.setState({ [field]: val })}>
                 {Object.entries(this.state.clientsList).map(client => {
                     return <Select.Option key={client[0]} value={client[0]}>{client[1].businessName}</Select.Option>
                 })}
@@ -169,7 +180,21 @@ export default class CreateEdit extends Component {
             } else if (this.state.createType === 'Client') {
                 return (
                     <div>
+                        <Row style={{ marginBottom: 20 }} gutter={20}>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <h4 style={{ lineHeight: 2.2 }}>Existing Clients</h4>
+                            </Col>
+                            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+                                {this.documentList()}
+
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                {/* {this.viewInvoice()} */}
+
+                            </Col>
+                        </Row>
                         <h3>Details</h3>
+
                         <Row gutter={20}>
                             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                 {this.descriptionItem('Business Name', 'businessName', 'Jill\'s Florist', this.state.businessName)}
@@ -225,22 +250,37 @@ export default class CreateEdit extends Component {
                 message.warning('Select a client.', 5)
             }
         } else if (this.state.createType === 'Client' && this.state.signedIn) {
-            db.createClient(clientObj).then(resp => {
-                console.log(resp);
-                message.success('Client added')
-            })
+            if (this.state.docId) {
+                db.updateClient(this.state.docId, clientObj)
+                .then(resp => {
+                    console.log(resp);
+                    message.success('Client Updated!')
+                })
                 .catch(err => {
                     console.log(err);
                     message.error('Opps! Somthing happened...')
                 })
+            } else {
+                db.createClient(clientObj).then(resp => {
+                    console.log(resp);
+                    this.setState({ docId: resp.key })
+                    message.success('Client added')
+                })
+                    .catch(err => {
+                        console.log(err);
+                        message.error('Opps! Somthing happened...')
+                    })
+            }
         }
     }
     documentList() {
+        let list = (this.state.createType === 'Invoice') ? this.state.docList : this.state.clientsList
         if (this.state.signedIn) {
             return (
-                <Select value={this.state.docId} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => { this.loadDoc(val); this.setState({ docId: val }) }}>
-                    {Object.entries(this.state.docList).map(doc => {
-                        return <Select.Option key={doc[0]} value={doc[0]}>{`${this.state.clientsList[doc[1].clientId].businessName} | ${doc[1].dateSent}`}</Select.Option>
+                <Select value={this.state.docId} placeholder='Select a client' style={{ width: '100%' }} onChange={(val) => { this.loadDoc(this.state.createType, val); this.setState({ docId: val }) }}>
+                    {Object.entries(list).map(doc => {
+                        let text = (this.state.createType === 'Invoice') ? `${this.state.clientsList[doc[1].clientId].businessName} | ${doc[1].dateSent}` : doc[1].businessName
+                        return <Select.Option key={doc[0]} value={doc[0]}>{text}</Select.Option>
                     })}
                 </Select>
             )
@@ -295,31 +335,92 @@ export default class CreateEdit extends Component {
         let text = (this.state.docId) ? 'Save' : 'Create'
         if (this.state.signedIn) {
             return (
-                <Button size='large' style={{ width: '100%', maxWidth: 200, border: '1px solid #2ecc71', color: '#2ecc71' }} onClick={() => this.submitForm()}>{text}</Button>
+                <Button size='large' style={{ width: '100%', border: '1px solid #2ecc71', color: '#2ecc71' }} onClick={() => this.submitForm()}>{text}</Button>
+            )
+        }
+    }
+    clear() {
+        this.setState({
+            docId: null,
+            loadedDoc: null,
+            productsServices: [],
+            clientId: null,
+            preparedBy: null,
+            paid: 0,
+            businessName: null,
+            contactName: null,
+            location: null,
+            phone: null,
+        })
+    }
+    clearButton() {
+        let disabled = (this.state.docId !== null || this.state.loadedDoc !== null || this.state.productsServices.length !== 0 || this.state.clientId !== null || this.state.preparedBy !== null || this.state.paid !== 0 || this.state.businessName !== null || this.state.contactName !== null || this.state.location !== null || this.state.phone !== null) ? false : true
+        if (this.state.signedIn) {
+            return (
+                <Button disabled={disabled} size='large' style={{ width: '100%' }} onClick={() => {
+                    this.clear()
+                }}>Clear Fields</Button>
+            )
+        }
+    }
+    deleteRecord() {
+        let disabled = (this.state.docId) ? false : true
+        if (this.state.signedIn) {
+            return (
+                <Button disabled={disabled} type='danger' ghost size='large' style={{ width: '100%' }} onClick={() => {
+                    this.clear()
+                }}>Delete</Button>
             )
         }
     }
     signIn() {
-        // let disabled = (!this.state.signedIn) ? false : true
-        let func = (!this.state.signedIn) ? auth.anonymousSignIn() : auth.doSignOut()
+        // let func = (!this.state.signedIn) ? auth.anonymousSignIn() : auth.doSignOut()
         let text = (!this.state.signedIn) ? 'Sign In' : 'Sign Out'
+        // return (
+        //     <Button style={{
+        //         float: 'right'
+        //     }} onClick={() => func.then(resp => { console.log(resp); this.setState({ signedIn: !this.state.signedIn }) })}>{text}</Button>
+        // )
         return (
             <Button style={{
                 float: 'right'
-            }} onClick={() => func.then(resp => { console.log(resp); this.setState({ signedIn: !this.state.signedIn }) })}>{text}</Button>
+            }} onClick={() => this.setState({ signedIn: !this.state.signedIn })}>{text}</Button>
         )
     }
-    render() {
+    backgroundColor() {
+        if (this.state.signedIn) {
+            var opacity = 0
+        } else {
+            opacity = 1
+        }
         return (
-            <div style={{ marginBottom: 80 }}>
+            <div>
                 <div id='headerSvg' style={{
                     height: '100%',
                     clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
                     width: ' 100%',
                     position: 'fixed',
+                    opacity: 1,
                     left: 0,
-                    background: `linear-gradient(to bottom right, ${this.state.backgroundGradient.dark}, ${this.state.backgroundGradient.light})`
-                }} className='noPrint' />
+                    background: `linear-gradient(to bottom right, #2980b9, #38b6ff)`
+                }} className='noPrint backgroundTransition' />
+                <div id='headerSvg' style={{
+                    height: '100%',
+                    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+                    width: ' 100%',
+                    position: 'fixed',
+                    transition: 'opacity 1.2s',
+                    opacity: opacity,
+                    left: 0,
+                    background: `linear-gradient(to bottom right, #c0392b, #8e44ad)`
+                }} className='noPrint backgroundTransition' />
+            </div>
+        )
+    }
+    render() {
+        return (
+            <div style={{ marginBottom: 80 }}>
+                {this.backgroundColor()}
                 <h1 style={{ color: '#fff', marginLeft: 40, fontWeight: 600, marginTop: 20 }}>Create & Edit</h1>
                 <div style={{ minHeight: 300, backgroundColor: '#fff', padding: 40, borderRadius: 4 }}>
                     <Row gutter={20}>
@@ -342,8 +443,14 @@ export default class CreateEdit extends Component {
                         {this.formType()}
                     </div>
                     <Divider />
-                    <Row style={{ marginTop: 30, textAlign: 'right' }} >
-                        <Col>
+                    <Row style={{ marginTop: 30 }} gutter={20} >
+                        <Col xs={24} sm={6} md={6} lg={6} xl={6}>
+                            {this.deleteRecord()}
+                        </Col>
+                        <Col xs={24} sm={6} md={6} lg={6} xl={6}>
+                            {this.clearButton()}
+                        </Col>
+                        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                             {this.saveCreate()}
                         </Col>
                     </Row>

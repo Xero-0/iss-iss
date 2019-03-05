@@ -8,10 +8,10 @@ export const getInvoice = (id) =>
 export const getClient = (id) =>
   db.ref('/clients/' + id).once('value');
 
-  export const getAllClients = () =>
+export const getAllClients = () =>
   db.ref('/clients').once('value');
 
-  export const getAllInvoices = () =>
+export const getAllInvoices = () =>
   db.ref('/invoices').once('value');
 
 
@@ -22,7 +22,13 @@ export const createClient = (clientObj) =>
     location: clientObj.location,
     phone: clientObj.phone
   });
-
+export const updateClient = (id, obj) =>
+  db.ref(`/clients/${id}`).set({
+    businessName: obj.businessName,
+    contactName: obj.contactName,
+    location: obj.location,
+    phone: obj.phone
+  });
 export const createInvoice = (obj) =>
   db.ref('/invoices/').push({
     clientId: obj.clientId,
